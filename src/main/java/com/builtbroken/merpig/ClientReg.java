@@ -1,6 +1,9 @@
 package com.builtbroken.merpig;
 
+import com.builtbroken.merpig.entity.EntityMerpig;
+import com.builtbroken.merpig.entity.RenderMerpig;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -15,6 +18,6 @@ public class ClientReg
     @SubscribeEvent
     public static void registerAllModels(ModelRegistryEvent event)
     {
-
+        RenderingRegistry.registerEntityRenderingHandler(EntityMerpig.class, manager -> new RenderMerpig(manager));
     }
 }
