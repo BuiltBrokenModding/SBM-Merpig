@@ -1,0 +1,16 @@
+[
+  {
+    "modid": "merpig",
+    "name": "[SBM] Merpig",
+    "description": "Ridable sea creature",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "http://www.builtbroken.com",
+    "updateUrl": "",
+    "authorList": ["Darkguardsman"],
+    "credits": "Dmodoomsirius",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]
