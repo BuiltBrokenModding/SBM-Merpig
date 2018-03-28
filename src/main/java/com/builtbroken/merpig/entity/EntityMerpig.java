@@ -13,6 +13,8 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 
 /**
+ * Pig that swims through water :P
+ *
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 3/28/2018.
  */
@@ -24,6 +26,7 @@ public class EntityMerpig extends EntityWaterMob
         this.setSize(0.8F, 0.8F);
     }
 
+    @Override
     protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();
@@ -56,21 +59,28 @@ public class EntityMerpig extends EntityWaterMob
 
         if (this.isBeingRidden() && this.canBeSteered())
         {
-            this.rotationYaw = entity.rotationYaw;
-            this.prevRotationYaw = this.rotationYaw;
+            //Sync rotation
+            this.prevRotationYaw = this.rotationYaw = entity.rotationYaw;
             this.rotationPitch = entity.rotationPitch * 0.5F;
             this.setRotation(this.rotationYaw, this.rotationPitch);
-            this.renderYawOffset = this.rotationYaw;
-            this.rotationYawHead = this.rotationYaw;
-            this.stepHeight = 1.0F;
+            this.rotationYawHead = this.renderYawOffset = this.rotationYaw;
+
+            //Set jump height
+            this.stepHeight = 0;
             this.jumpMovementFactor = this.getAIMoveSpeed() * 0.1F;
 
+            //Do movement
             if (this.canPassengerSteer())
             {
-                float f = (float) this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue() * 0.225F;
+                //Set speed
+                float speed = (float) this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue() * 0.225F;
+                this.setAIMoveSpeed(speed);
 
-                this.setAIMoveSpeed(f);
-                super.travel(0.0F, 0.0F, 1.0F);
+                //Get vertical movement
+                float v = entity.rotationPitch / 180f;
+                System.out.println(v);
+
+                super.travel(0.0F, -v * 2, 1.0F);
             }
             else
             {
@@ -79,16 +89,15 @@ public class EntityMerpig extends EntityWaterMob
                 this.motionZ = 0.0D;
             }
 
+            //Do animation
             this.prevLimbSwingAmount = this.limbSwingAmount;
             double d1 = this.posX - this.prevPosX;
             double d0 = this.posZ - this.prevPosZ;
             float f1 = MathHelper.sqrt(d1 * d1 + d0 * d0) * 4.0F;
-
             if (f1 > 1.0F)
             {
                 f1 = 1.0F;
             }
-
             this.limbSwingAmount += (f1 - this.limbSwingAmount) * 0.4F;
             this.limbSwing += this.limbSwingAmount;
         }
@@ -128,6 +137,18 @@ public class EntityMerpig extends EntityWaterMob
 
     @Override
     public boolean shouldDismountInWater(Entity rider)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean hasNoGravity()
+    {
+        return isInWater() || super.hasNoGravity();
+    }
+
+    @Override
+    protected boolean canTriggerWalking()
     {
         return false;
     }
