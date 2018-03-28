@@ -73,12 +73,11 @@ public class EntityMerpig extends EntityWaterMob
             if (this.canPassengerSteer())
             {
                 //Set speed
-                float speed = (float) this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue() * 0.225F;
+                float speed = (float) this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue();
                 this.setAIMoveSpeed(speed);
 
                 //Get vertical movement
                 float v = entity.rotationPitch / 180f;
-                System.out.println(v);
 
                 super.travel(0.0F, -v * 2, 1.0F);
             }
