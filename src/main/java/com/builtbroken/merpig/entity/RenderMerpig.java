@@ -17,6 +17,7 @@ public class RenderMerpig extends RenderLiving<EntityMerpig>
     public RenderMerpig(RenderManager rendermanagerIn)
     {
         super(rendermanagerIn, new ModelMerpig(), 0);
+        //this.addLayer(new LayerSaddleMerpig(this));
     }
 
     @Nullable

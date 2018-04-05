@@ -1,0 +1,1355 @@
+{
+  "modelName": "ModelPig",
+  "authorName": "Either Mojang or a mod author",
+  "projVersion": 4,
+  "metadata": [
+  ],
+  "textureWidth": 128,
+  "textureHeight": 64,
+  "scale": [
+    1,
+    1,
+    1
+  ],
+  "cubeGroups": [
+  ],
+  "cubes": [
+    {
+      "name": "merpigbody",
+      "dimensions": [
+        10,
+        15,
+        8
+      ],
+      "position": [
+        0,
+        11,
+        2
+      ],
+      "offset": [
+        -5,
+        -10,
+        -7
+      ],
+      "rotation": [
+        90,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "txOffset": [
+        28,
+        8
+      ],
+      "txMirror": false,
+      "mcScale": 0,
+      "opacity": 100,
+      "hidden": false,
+      "metadata": [
+      ],
+      "children": [
+      ],
+      "identifier": "=f7=T9RwltKqTO2>?7~-"
+    },
+    {
+      "name": "flipper1",
+      "dimensions": [
+        1,
+        6,
+        5
+      ],
+      "position": [
+        5.4,
+        16,
+        -5
+      ],
+      "offset": [
+        -2,
+        0,
+        -2
+      ],
+      "rotation": [
+        0,
+        0,
+        -41.74
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "txOffset": [
+        0,
+        36
+      ],
+      "txMirror": false,
+      "mcScale": 0,
+      "opacity": 100,
+      "hidden": false,
+      "metadata": [
+      ],
+      "children": [
+      ],
+      "identifier": "!:S#\"?Q$KY(N^oqRax(r"
+    },
+    {
+      "name": "flipper2",
+      "dimensions": [
+        1,
+        6,
+        5
+      ],
+      "position": [
+        -3,
+        18,
+        -5
+      ],
+      "offset": [
+        -2,
+        0,
+        -2
+      ],
+      "rotation": [
+        0,
+        0,
+        41.74
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "txOffset": [
+        0,
+        36
+      ],
+      "txMirror": false,
+      "mcScale": 0,
+      "opacity": 100,
+      "hidden": false,
+      "metadata": [
+      ],
+      "children": [
+      ],
+      "identifier": "U6wY<DPnV@o3M:lS^u0y"
+    },
+    {
+      "name": "merpighead",
+      "dimensions": [
+        8,
+        8,
+        8
+      ],
+      "position": [
+        0,
+        12,
+        -6
+      ],
+      "offset": [
+        -4,
+        -4,
+        -8
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "txOffset": [
+        0,
+        0
+      ],
+      "txMirror": false,
+      "mcScale": 0,
+      "opacity": 100,
+      "hidden": false,
+      "metadata": [
+      ],
+      "children": [
+        {
+          "name": "headfin",
+          "dimensions": [
+            1,
+            7,
+            7
+          ],
+          "position": [
+            -0.5,
+            -10,
+            -6
+          ],
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            -15.65,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "txOffset": [
+            66,
+            0
+          ],
+          "txMirror": false,
+          "mcScale": 0,
+          "opacity": 100,
+          "hidden": false,
+          "metadata": [
+          ],
+          "children": [
+          ],
+          "parentIdentifier": "Cb|WS9$pFW \\}g<cp={:",
+          "identifier": "5gw[3'{f%E, s(CT^3: "
+        },
+        {
+          "name": "merpignose",
+          "dimensions": [
+            4,
+            3,
+            1
+          ],
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "offset": [
+            -2,
+            0,
+            -9
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "txOffset": [
+            16,
+            16
+          ],
+          "txMirror": false,
+          "mcScale": 0,
+          "opacity": 100,
+          "hidden": false,
+          "metadata": [
+          ],
+          "children": [
+          ],
+          "parentIdentifier": "Cb|WS9$pFW \\}g<cp={:",
+          "identifier": "f]:: $h)ZqTJ`W;6EM~;"
+        }
+      ],
+      "identifier": "Cb|WS9$pFW \\}g<cp={:"
+    },
+    {
+      "name": "TailBase",
+      "dimensions": [
+        8,
+        6,
+        5
+      ],
+      "position": [
+        -4,
+        11,
+        6
+      ],
+      "offset": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "txOffset": [
+        66,
+        20
+      ],
+      "txMirror": false,
+      "mcScale": 0,
+      "opacity": 100,
+      "hidden": false,
+      "metadata": [
+      ],
+      "children": [
+        {
+          "name": "TailMiddle",
+          "dimensions": [
+            4,
+            3,
+            6
+          ],
+          "position": [
+            2,
+            1.5,
+            4
+          ],
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "txOffset": [
+            96,
+            21
+          ],
+          "txMirror": false,
+          "mcScale": 0,
+          "opacity": 100,
+          "hidden": false,
+          "metadata": [
+          ],
+          "children": [
+            {
+              "name": "FinStart",
+              "dimensions": [
+                1,
+                7,
+                5
+              ],
+              "position": [
+                1.5,
+                -2,
+                4
+              ],
+              "offset": [
+                0,
+                0,
+                0
+              ],
+              "rotation": [
+                0,
+                0,
+                0
+              ],
+              "scale": [
+                1,
+                1,
+                1
+              ],
+              "txOffset": [
+                42,
+                36
+              ],
+              "txMirror": false,
+              "mcScale": 0,
+              "opacity": 100,
+              "hidden": false,
+              "metadata": [
+              ],
+              "children": [
+                {
+                  "name": "FinMiddle",
+                  "dimensions": [
+                    1,
+                    7,
+                    5
+                  ],
+                  "position": [
+                    -5.5511151231258e-17,
+                    0,
+                    4
+                  ],
+                  "offset": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "rotation": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "scale": [
+                    1,
+                    1,
+                    1
+                  ],
+                  "txOffset": [
+                    42,
+                    36
+                  ],
+                  "txMirror": false,
+                  "mcScale": 0,
+                  "opacity": 100,
+                  "hidden": false,
+                  "metadata": [
+                  ],
+                  "children": [
+                    {
+                      "name": "FinEnd",
+                      "dimensions": [
+                        1,
+                        9,
+                        2
+                      ],
+                      "position": [
+                        0,
+                        -1,
+                        4
+                      ],
+                      "offset": [
+                        0,
+                        0,
+                        0
+                      ],
+                      "rotation": [
+                        0,
+                        0,
+                        0
+                      ],
+                      "scale": [
+                        1,
+                        1,
+                        1
+                      ],
+                      "txOffset": [
+                        59,
+                        38
+                      ],
+                      "txMirror": false,
+                      "mcScale": 0,
+                      "opacity": 100,
+                      "hidden": false,
+                      "metadata": [
+                      ],
+                      "children": [
+                      ],
+                      "parentIdentifier": "-e~{:+rKxH=O .#:E^S!",
+                      "identifier": "*#\"eNnpuGifR+5'xsS,{"
+                    }
+                  ],
+                  "parentIdentifier": "CL;^Oh;;[vZHKH8p1f&*",
+                  "identifier": "-e~{:+rKxH=O .#:E^S!"
+                }
+              ],
+              "parentIdentifier": "aAN],='f_opRA8mh2J#J",
+              "identifier": "CL;^Oh;;[vZHKH8p1f&*"
+            }
+          ],
+          "parentIdentifier": "g6DKD!68dxAB*.0=U rh",
+          "identifier": "aAN],='f_opRA8mh2J#J"
+        }
+      ],
+      "identifier": "g6DKD!68dxAB*.0=U rh"
+    }
+  ],
+  "anims": [
+    {
+      "name": "Swimming",
+      "identifier": "9$#i;<\/zs10LGamhv5($",
+      "loops": true,
+      "sets": {
+        "!:S#\"?Q$KY(N^oqRax(r": [
+          {
+            "posChange": [
+              0,
+              0,
+              0
+            ],
+            "rotChange": [
+              0,
+              0,
+              -23.26
+            ],
+            "scaleChange": [
+              0,
+              0,
+              0
+            ],
+            "opacityChange": 0,
+            "posOffset": [
+              0,
+              0,
+              0
+            ],
+            "rotOffset": [
+              0,
+              0,
+              0
+            ],
+            "scaleOffset": [
+              0,
+              0,
+              0
+            ],
+            "opacityOffset": 0,
+            "name": "1",
+            "length": 4,
+            "startKey": 0,
+            "hidden": false,
+            "identifier": "Qhj.-(b>S?cs::[UV9j$"
+          },
+          {
+            "posChange": [
+              0,
+              0,
+              0
+            ],
+            "rotChange": [
+              0,
+              0,
+              46.52
+            ],
+            "scaleChange": [
+              0,
+              0,
+              0
+            ],
+            "opacityChange": 0,
+            "posOffset": [
+              0,
+              0,
+              0
+            ],
+            "rotOffset": [
+              0,
+              0,
+              0
+            ],
+            "scaleOffset": [
+              0,
+              0,
+              0
+            ],
+            "opacityOffset": 0,
+            "name": "2",
+            "length": 8,
+            "startKey": 4,
+            "hidden": false,
+            "identifier": "4zJ<-pX`m<tEgcgDLZNZ"
+          },
+          {
+            "posChange": [
+              0,
+              0,
+              0
+            ],
+            "rotChange": [
+              0,
+              0,
+              -46.52
+            ],
+            "scaleChange": [
+              0,
+              0,
+              0
+            ],
+            "opacityChange": 0,
+            "posOffset": [
+              0,
+              0,
+              0
+            ],
+            "rotOffset": [
+              0,
+              0,
+              0
+            ],
+            "scaleOffset": [
+              0,
+              0,
+              0
+            ],
+            "opacityOffset": 0,
+            "name": "3",
+            "length": 8,
+            "startKey": 12,
+            "hidden": false,
+            "identifier": "\\j$1yP;JSRjK,&X*]k+g"
+          },
+          {
+            "posChange": [
+              0,
+              0,
+              0
+            ],
+            "rotChange": [
+              0,
+              0,
+              46.52
+            ],
+            "scaleChange": [
+              0,
+              0,
+              0
+            ],
+            "opacityChange": 0,
+            "posOffset": [
+              0,
+              0,
+              0
+            ],
+            "rotOffset": [
+              0,
+              0,
+              0
+            ],
+            "scaleOffset": [
+              0,
+              0,
+              0
+            ],
+            "opacityOffset": 0,
+            "name": "4",
+            "length": 8,
+            "startKey": 20,
+            "hidden": false,
+            "identifier": "$TuxzC(`hrh?<!r%x6q)"
+          },
+          {
+            "posChange": [
+              0,
+              0,
+              0
+            ],
+            "rotChange": [
+              0,
+              0,
+              -17.44
+            ],
+            "scaleChange": [
+              0,
+              0,
+              0
+            ],
+            "opacityChange": 0,
+            "posOffset": [
+              0,
+              0,
+              0
+            ],
+            "rotOffset": [
+              0,
+              0,
+              0
+            ],
+            "scaleOffset": [
+              0,
+              0,
+              0
+            ],
+            "opacityOffset": 0,
+            "name": "5",
+            "length": 3,
+            "startKey": 28,
+            "hidden": false,
+            "identifier": ":|N<}[YLQ2<d0Pol~o+["
+          }
+        ],
+        "-e~{:+rKxH=O .#:E^S!": [
+          {
+            "posChange": [
+              -0.2,
+              0,
+              0.5
+            ],
+            "rotChange": [
+              0,
+              30,
+              0
+            ],
+            "scaleChange": [
+              0,
+              0,
+              0
+            ],
+            "opacityChange": 0,
+            "posOffset": [
+              0,
+              0,
+              0
+            ],
+            "rotOffset": [
+              0,
+              0,
+              0
+            ],
+            "scaleOffset": [
+              0,
+              0,
+              0
+            ],
+            "opacityOffset": 0,
+            "name": "1",
+            "length": 2,
+            "startKey": 0,
+            "hidden": false,
+            "identifier": "7K%+r=8#Z;jC;wQR'DRq"
+          },
+          {
+            "posChange": [
+              0.5,
+              0,
+              -0.2
+            ],
+            "rotChange": [
+              0,
+              -60,
+              0
+            ],
+            "scaleChange": [
+              0,
+              0,
+              0
+            ],
+            "opacityChange": 0,
+            "posOffset": [
+              0,
+              0,
+              0
+            ],
+            "rotOffset": [
+              0,
+              0,
+              0
+            ],
+            "scaleOffset": [
+              0,
+              0,
+              0
+            ],
+            "opacityOffset": 0,
+            "name": "2",
+            "length": 4,
+            "startKey": 8,
+            "hidden": false,
+            "identifier": "f(jvPCv#9v!|WLM6 +K)"
+          },
+          {
+            "posChange": [
+              -0.3,
+              0,
+              -0.3
+            ],
+            "rotChange": [
+              0,
+              30,
+              0
+            ],
+            "scaleChange": [
+              0,
+              0,
+              0
+            ],
+            "opacityChange": 0,
+            "posOffset": [
+              0,
+              0,
+              0
+            ],
+            "rotOffset": [
+              0,
+              0,
+              0
+            ],
+            "scaleOffset": [
+              0,
+              0,
+              0
+            ],
+            "opacityOffset": 0,
+            "name": "3",
+            "length": 2,
+            "startKey": 24,
+            "hidden": false,
+            "identifier": "6;4cojF])3\\p$ x.YQp\/"
+          }
+        ],
+        "CL;^Oh;;[vZHKH8p1f&*": [
+          {
+            "posChange": [
+              0,
+              0,
+              0
+            ],
+            "rotChange": [
+              0,
+              -20,
+              0
+            ],
+            "scaleChange": [
+              0,
+              0,
+              0
+            ],
+            "opacityChange": 0,
+            "posOffset": [
+              0,
+              0,
+              0
+            ],
+            "rotOffset": [
+              0,
+              0,
+              0
+            ],
+            "scaleOffset": [
+              0,
+              0,
+              0
+            ],
+            "opacityOffset": 0,
+            "name": "1",
+            "length": 8,
+            "startKey": 0,
+            "hidden": false,
+            "identifier": "K?q$6\"o.[b6s V,t0W;`"
+          },
+          {
+            "posChange": [
+              0,
+              0,
+              0
+            ],
+            "rotChange": [
+              0,
+              40,
+              0
+            ],
+            "scaleChange": [
+              0,
+              0,
+              0
+            ],
+            "opacityChange": 0,
+            "posOffset": [
+              0,
+              0,
+              0
+            ],
+            "rotOffset": [
+              0,
+              0,
+              0
+            ],
+            "scaleOffset": [
+              0,
+              0,
+              0
+            ],
+            "opacityOffset": 0,
+            "name": "2",
+            "length": 16,
+            "startKey": 8,
+            "hidden": false,
+            "identifier": "%u^pr5jo#H$ c36Sh\\K|"
+          },
+          {
+            "posChange": [
+              0,
+              0,
+              0
+            ],
+            "rotChange": [
+              0,
+              -17.5,
+              0
+            ],
+            "scaleChange": [
+              0,
+              0,
+              0
+            ],
+            "opacityChange": 0,
+            "posOffset": [
+              0,
+              0,
+              0
+            ],
+            "rotOffset": [
+              0,
+              0,
+              0
+            ],
+            "scaleOffset": [
+              0,
+              0,
+              0
+            ],
+            "opacityOffset": 0,
+            "name": "3",
+            "length": 7,
+            "startKey": 24,
+            "hidden": false,
+            "identifier": "_sP.M&[}l[r8T!TDIn+?"
+          }
+        ],
+        "U6wY<DPnV@o3M:lS^u0y": [
+          {
+            "posChange": [
+              0,
+              0.7,
+              0
+            ],
+            "rotChange": [
+              0,
+              0,
+              23.26
+            ],
+            "scaleChange": [
+              0,
+              0,
+              0
+            ],
+            "opacityChange": 0,
+            "posOffset": [
+              0,
+              0,
+              0
+            ],
+            "rotOffset": [
+              0,
+              0,
+              0
+            ],
+            "scaleOffset": [
+              0,
+              0,
+              0
+            ],
+            "opacityOffset": 0,
+            "name": "1",
+            "length": 4,
+            "startKey": 0,
+            "hidden": false,
+            "identifier": ")hAPFBfjqAgC3(22I:UE"
+          },
+          {
+            "posChange": [
+              0.5,
+              -1.7,
+              0
+            ],
+            "rotChange": [
+              0,
+              0,
+              -46.52
+            ],
+            "scaleChange": [
+              0,
+              0,
+              0
+            ],
+            "opacityChange": 0,
+            "posOffset": [
+              0,
+              0,
+              0
+            ],
+            "rotOffset": [
+              0,
+              0,
+              0
+            ],
+            "scaleOffset": [
+              0,
+              0,
+              0
+            ],
+            "opacityOffset": 0,
+            "name": "2",
+            "length": 8,
+            "startKey": 4,
+            "hidden": false,
+            "identifier": "pk<+\"or.I*#e{A) LpJH"
+          },
+          {
+            "posChange": [
+              -0.5,
+              1.7,
+              0
+            ],
+            "rotChange": [
+              0,
+              0,
+              46.52
+            ],
+            "scaleChange": [
+              0,
+              0,
+              0
+            ],
+            "opacityChange": 0,
+            "posOffset": [
+              0,
+              0,
+              0
+            ],
+            "rotOffset": [
+              0,
+              0,
+              0
+            ],
+            "scaleOffset": [
+              0,
+              0,
+              0
+            ],
+            "opacityOffset": 0,
+            "name": "3",
+            "length": 8,
+            "startKey": 12,
+            "hidden": false,
+            "identifier": "n}yA4o1uuZ!i)@<v}-uv"
+          },
+          {
+            "posChange": [
+              0.5,
+              -1.7,
+              0
+            ],
+            "rotChange": [
+              0,
+              0,
+              -46.52
+            ],
+            "scaleChange": [
+              0,
+              0,
+              0
+            ],
+            "opacityChange": 0,
+            "posOffset": [
+              0,
+              0,
+              0
+            ],
+            "rotOffset": [
+              0,
+              0,
+              0
+            ],
+            "scaleOffset": [
+              0,
+              0,
+              0
+            ],
+            "opacityOffset": 0,
+            "name": "4",
+            "length": 8,
+            "startKey": 20,
+            "hidden": false,
+            "identifier": "KKcI]sCv9m*Sb$9}i|3I"
+          },
+          {
+            "posChange": [
+              -0.5,
+              0.7,
+              0
+            ],
+            "rotChange": [
+              0,
+              0,
+              17.44
+            ],
+            "scaleChange": [
+              0,
+              0,
+              0
+            ],
+            "opacityChange": 0,
+            "posOffset": [
+              0,
+              0,
+              0
+            ],
+            "rotOffset": [
+              0,
+              0,
+              0
+            ],
+            "scaleOffset": [
+              0,
+              0,
+              0
+            ],
+            "opacityOffset": 0,
+            "name": "5",
+            "length": 3,
+            "startKey": 28,
+            "hidden": false,
+            "identifier": "[U\\2z+EU?ZQf$jA])y-q"
+          }
+        ],
+        "aAN],='f_opRA8mh2J#J": [
+          {
+            "posChange": [
+              0,
+              0,
+              0
+            ],
+            "rotChange": [
+              0,
+              -14,
+              0
+            ],
+            "scaleChange": [
+              0,
+              0,
+              0
+            ],
+            "opacityChange": 0,
+            "posOffset": [
+              0,
+              0,
+              0
+            ],
+            "rotOffset": [
+              0,
+              0,
+              0
+            ],
+            "scaleOffset": [
+              0,
+              0,
+              0
+            ],
+            "opacityOffset": 0,
+            "name": "1",
+            "length": 8,
+            "startKey": 0,
+            "hidden": false,
+            "identifier": "LS\"W&,Y)ww*=v@#P]7\\B"
+          },
+          {
+            "posChange": [
+              0,
+              0,
+              0
+            ],
+            "rotChange": [
+              0,
+              28,
+              0
+            ],
+            "scaleChange": [
+              0,
+              0,
+              0
+            ],
+            "opacityChange": 0,
+            "posOffset": [
+              0,
+              0,
+              0
+            ],
+            "rotOffset": [
+              0,
+              0,
+              0
+            ],
+            "scaleOffset": [
+              0,
+              0,
+              0
+            ],
+            "opacityOffset": 0,
+            "name": "2",
+            "length": 16,
+            "startKey": 8,
+            "hidden": false,
+            "identifier": "IHk6Hj}HmW<'eo;gqnSD"
+          },
+          {
+            "posChange": [
+              0,
+              0,
+              0
+            ],
+            "rotChange": [
+              0,
+              -12.25,
+              0
+            ],
+            "scaleChange": [
+              0,
+              0,
+              0
+            ],
+            "opacityChange": 0,
+            "posOffset": [
+              0,
+              0,
+              0
+            ],
+            "rotOffset": [
+              0,
+              0,
+              0
+            ],
+            "scaleOffset": [
+              0,
+              0,
+              0
+            ],
+            "opacityOffset": 0,
+            "name": "3",
+            "length": 7,
+            "startKey": 24,
+            "hidden": false,
+            "identifier": ":x[+wmcwJmCc>7>iFk'-"
+          }
+        ],
+        "g6DKD!68dxAB*.0=U rh": [
+          {
+            "posChange": [
+              0,
+              0,
+              0
+            ],
+            "rotChange": [
+              0,
+              -8,
+              0
+            ],
+            "scaleChange": [
+              0,
+              0,
+              0
+            ],
+            "opacityChange": 0,
+            "posOffset": [
+              0,
+              0,
+              0
+            ],
+            "rotOffset": [
+              0,
+              0,
+              0
+            ],
+            "scaleOffset": [
+              0,
+              0,
+              0
+            ],
+            "opacityOffset": 0,
+            "name": "1",
+            "length": 8,
+            "startKey": 0,
+            "hidden": false,
+            "identifier": "Fq-[CFq8ccRr8V+6,|q&"
+          },
+          {
+            "posChange": [
+              0,
+              0,
+              0
+            ],
+            "rotChange": [
+              0,
+              16,
+              0
+            ],
+            "scaleChange": [
+              0,
+              0,
+              0
+            ],
+            "opacityChange": 0,
+            "posOffset": [
+              0,
+              0,
+              0
+            ],
+            "rotOffset": [
+              0,
+              0,
+              0
+            ],
+            "scaleOffset": [
+              0,
+              0,
+              0
+            ],
+            "opacityOffset": 0,
+            "name": "2",
+            "length": 16,
+            "startKey": 8,
+            "hidden": false,
+            "identifier": "B' r+v:u,&Y6twyC0;7z"
+          },
+          {
+            "posChange": [
+              0,
+              0,
+              0
+            ],
+            "rotChange": [
+              0,
+              -7,
+              0
+            ],
+            "scaleChange": [
+              0,
+              0,
+              0
+            ],
+            "opacityChange": 0,
+            "posOffset": [
+              0,
+              0,
+              0
+            ],
+            "rotOffset": [
+              0,
+              0,
+              0
+            ],
+            "scaleOffset": [
+              0,
+              0,
+              0
+            ],
+            "opacityOffset": 0,
+            "name": "3",
+            "length": 7,
+            "startKey": 24,
+            "hidden": false,
+            "identifier": "sfclJKLhKgBeBq+8O&\/6"
+          }
+        ]
+      }
+    }
+  ],
+  "cubeCount": 15
+}

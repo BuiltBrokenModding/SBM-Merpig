@@ -2,6 +2,7 @@ package com.builtbroken.merpig.entity;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.passive.EntityWaterMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -27,11 +28,18 @@ public class EntityMerpig extends EntityWaterMob
     }
 
     @Override
+    protected void initEntityAI()
+    {
+        this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+        this.tasks.addTask(8, new EntityAILookIdle(this));
+    }
+
+    @Override
     protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.5D);
     }
 
     @Nullable
@@ -156,5 +164,10 @@ public class EntityMerpig extends EntityWaterMob
     protected boolean canDespawn()
     {
         return false;
+    }
+
+    public boolean getSaddled()
+    {
+        return true;
     }
 }
