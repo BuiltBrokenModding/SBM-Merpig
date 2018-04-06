@@ -180,8 +180,8 @@ public class ModelMerpig extends ModelBase
 
             //Render current animation state
             //System.out.println((String.format("[%s]Render Data: %s %s %s", entitylivingbaseIn, time, progress, partialTickTime)));
-            int ticks = entity.ticksExisted;
-            currentAnimation.applyFromLifeTicks(ticks, partialTickTime);
+            float progress = (entity.ticksExisted % currentAnimation.duration / (float)currentAnimation.duration);
+            currentAnimation.applyFromProgress(progress, partialTickTime);
 
             //Store rotation data
             currentAnimation.copyRotations(merpig.rotationStorage);

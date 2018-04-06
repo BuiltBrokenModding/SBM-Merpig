@@ -2,7 +2,9 @@ package com.builtbroken.merpig;
 
 import com.builtbroken.merpig.entity.EntityMerpig;
 import com.builtbroken.merpig.entity.RenderMerpig;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -19,6 +21,6 @@ public class ClientReg
     public static void registerAllModels(ModelRegistryEvent event)
     {
         RenderingRegistry.registerEntityRenderingHandler(EntityMerpig.class, manager -> new RenderMerpig(manager));
-        //ModelLoader.setCustomModelResourceLocation(Merpig.itemStick, 0, new ModelResourceLocation(Merpig.itemStick.getRegistryName(), "inventory"));
+        ModelLoader.setCustomModelResourceLocation(Merpig.itemStick, 0, new ModelResourceLocation(Merpig.itemStick.getRegistryName(), "inventory"));
     }
 }
