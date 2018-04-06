@@ -78,7 +78,7 @@ public class ModelMerpig extends ModelBase
         this.merpighead.addChild(this.headfin);
         this.TailMiddle.addChild(this.FinStart);
 
-        //Will cover more in a video later once 100% done
+        //Animations
         currentAnimation = new Animation(32);
         currentAnimation.add(
                 new AnimationPart(flipper1)

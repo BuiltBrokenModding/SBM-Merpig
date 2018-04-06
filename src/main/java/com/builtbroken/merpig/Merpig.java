@@ -1,6 +1,7 @@
 package com.builtbroken.merpig;
 
 import com.builtbroken.merpig.entity.EntityMerpig;
+import com.builtbroken.merpig.item.ItemSeagrassOnStick;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
@@ -29,16 +30,18 @@ public class Merpig
     public static final String MC_VERSION = "@MC@";
     public static final String VERSION = MC_VERSION + "-" + MAJOR_VERSION + "." + MINOR_VERSION + "." + REVISION_VERSION + "." + BUILD_VERSION;
 
-    public static final int ENTITY_ID_PREFIX = 50;
-
     @Mod.Instance(DOMAIN)
     public static Merpig INSTANCE;
+
+    public static Item itemStick;
+
+    public static final int ENTITY_ID_PREFIX = 50;
     private static int nextEntityID = ENTITY_ID_PREFIX;
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event)
     {
-
+        event.getRegistry().register(itemStick = new ItemSeagrassOnStick());
     }
 
     @SubscribeEvent

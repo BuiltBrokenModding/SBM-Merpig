@@ -19,5 +19,6 @@ public class ClientReg
     public static void registerAllModels(ModelRegistryEvent event)
     {
         RenderingRegistry.registerEntityRenderingHandler(EntityMerpig.class, manager -> new RenderMerpig(manager));
+        //ModelLoader.setCustomModelResourceLocation(Merpig.itemStick, 0, new ModelResourceLocation(Merpig.itemStick.getRegistryName(), "inventory"));
     }
 }

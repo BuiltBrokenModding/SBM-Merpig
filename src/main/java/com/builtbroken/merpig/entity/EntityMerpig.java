@@ -1,16 +1,25 @@
 package com.builtbroken.merpig.entity;
 
 import com.builtbroken.merpig.animation.Animation;
+import com.builtbroken.merpig.item.ItemSeagrassOnStick;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.*;
+import net.minecraft.entity.ai.EntityAILookIdle;
+import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.passive.EntityWaterMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.*;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -24,6 +33,8 @@ import javax.annotation.Nullable;
  */
 public class EntityMerpig extends EntityWaterMob
 {
+    private static final DataParameter<Boolean> SADDLED = EntityDataManager.<Boolean>createKey(EntityPig.class, DataSerializers.BOOLEAN);
+
     @SideOnly(Side.CLIENT)
     public Animation rotationStorage;
 
@@ -31,6 +42,14 @@ public class EntityMerpig extends EntityWaterMob
     {
         super(worldIn);
         this.setSize(0.8F, 0.8F);
+    }
+
+    @Override
+    protected void entityInit()
+    {
+        super.entityInit();
+        this.dataManager.register(SADDLED, Boolean.valueOf(false));
+        //this.dataManager.register(BOOST_TIME, Integer.valueOf(0)); TODO add
     }
 
     @Override
@@ -61,7 +80,7 @@ public class EntityMerpig extends EntityWaterMob
         if (entity instanceof EntityPlayer)
         {
             EntityPlayer entityplayer = (EntityPlayer) entity;
-            return entityplayer.getHeldItemMainhand().getItem() == Items.CARROT_ON_A_STICK || entityplayer.getHeldItemOffhand().getItem() == Items.CARROT_ON_A_STICK;
+            return entityplayer.getHeldItemMainhand().getItem() instanceof ItemSeagrassOnStick || entityplayer.getHeldItemOffhand().getItem() instanceof ItemSeagrassOnStick;
         }
         return false;
     }
@@ -134,18 +153,103 @@ public class EntityMerpig extends EntityWaterMob
                 itemstack.interactWithEntity(player, this, hand);
                 return true;
             }
-            else if (!this.isBeingRidden())
+            else if (getSaddled() && !this.isBeingRidden())
             {
                 if (!this.world.isRemote)
                 {
                     player.startRiding(this);
                 }
-
+                return true;
+            }
+            else if (itemstack.getItem() == Items.SADDLE)
+            {
+                if (!getSaddled())
+                {
+                    setSaddled(true);
+                    world.playSound(player, posX, posY, posZ, SoundEvents.ENTITY_PIG_SADDLE, SoundCategory.NEUTRAL, 0.5F, 1.0F);
+                    itemstack.shrink(1);
+                }
                 return true;
             }
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void onDeath(DamageSource cause)
+    {
+        super.onDeath(cause);
+
+        if (!this.world.isRemote)
+        {
+            if (this.getSaddled())
+            {
+                this.dropItem(Items.SADDLE, 1);
+            }
+        }
+    }
+
+    @Override
+    @Nullable
+    protected ResourceLocation getLootTable()
+    {
+        return LootTableList.ENTITIES_PIG;
+    }
+
+    /**
+     * Returns true if the pig is saddled.
+     */
+    public boolean getSaddled()
+    {
+        return ((Boolean) this.dataManager.get(SADDLED)).booleanValue();
+    }
+
+    /**
+     * Set or remove the saddle of the pig.
+     */
+    public void setSaddled(boolean saddled)
+    {
+        if (saddled)
+        {
+            this.dataManager.set(SADDLED, Boolean.valueOf(true));
+        }
+        else
+        {
+            this.dataManager.set(SADDLED, Boolean.valueOf(false));
+        }
+    }
+
+    @Override
+    public void writeEntityToNBT(NBTTagCompound compound)
+    {
+        super.writeEntityToNBT(compound);
+        compound.setBoolean("Saddle", this.getSaddled());
+    }
+
+    @Override
+    public void readEntityFromNBT(NBTTagCompound compound)
+    {
+        super.readEntityFromNBT(compound);
+        this.setSaddled(compound.getBoolean("Saddle"));
+    }
+
+    @Override
+    protected SoundEvent getAmbientSound()
+    {
+        return SoundEvents.ENTITY_PIG_AMBIENT; //TODO change
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn)
+    {
+        return SoundEvents.ENTITY_PIG_HURT; //TODO change
+    }
+
+    @Override
+    protected SoundEvent getDeathSound()
+    {
+        return SoundEvents.ENTITY_PIG_DEATH; //TODO change
     }
 
     @Override
@@ -170,10 +274,5 @@ public class EntityMerpig extends EntityWaterMob
     protected boolean canDespawn()
     {
         return false;
-    }
-
-    public boolean getSaddled()
-    {
-        return true;
     }
 }
