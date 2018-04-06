@@ -16,7 +16,7 @@ import net.minecraft.entity.EntityLivingBase;
  */
 public class ModelMerpig extends ModelBase
 {
-    Animation animation;
+    Animation currentAnimation;
 
     public ModelRenderer merpigbody;
     public ModelRenderer flipper1;
@@ -78,14 +78,55 @@ public class ModelMerpig extends ModelBase
         this.merpighead.addChild(this.headfin);
         this.TailMiddle.addChild(this.FinStart);
 
-        animation = new Animation(31);
-        animation.add(
+        //Will cover more in a video later once 100% done
+        currentAnimation = new Animation(32);
+        currentAnimation.add(
                 new AnimationPart(flipper1)
-                        .addStep(4, new AnimationStep(0, 0, -65f, true, true))
-                        .addStep(8, new AnimationStep(0, 0, -18.48f, true, true))
-                        .addStep(6, new AnimationStep(0, 0, -65f, true, true))
-                        .addStep(8, new AnimationStep(0, 0, -18.48f, true, true))
-                        .addStep(3, new AnimationStep(0, 0, -35.92f, true, true))
+                        .addStep(new AnimationStep(4, 0, 0, -65f, true, true))
+                        .addStep(new AnimationStep(8, 0, 0, -18.48f, true, true))
+                        .addStep(new AnimationStep(6, 0, 0, -65f, true, true))
+                        .addStep(new AnimationStep(8, 0, 0, -18.48f, true, true))
+                        .addStep(new AnimationStep(3, 0, 0, -35.92f, true, true))
+        );
+
+        currentAnimation.add(
+                new AnimationPart(flipper2)
+                        .addStep(new AnimationStep(4, 0, 0, 65f, true, true))
+                        .addStep(new AnimationStep(8, 0, 0, 18.48f, true, true))
+                        .addStep(new AnimationStep(6, 0, 0, 65f, true, true))
+                        .addStep(new AnimationStep(8, 0, 0, 18.48f, true, true))
+                        .addStep(new AnimationStep(3, 0, 0, 35.92f, true, true))
+        );
+
+        currentAnimation.add(
+                new AnimationPart(TailBase)
+                        .addStep(new AnimationStep(9, 0, -8, 0, true, true))
+                        .addStep(new AnimationStep(16, 0, 8, 0, true, true))
+                        .addStep(new AnimationStep(7, 0, 1, 0, true, true))
+        );
+
+        currentAnimation.add(
+                new AnimationPart(TailMiddle)
+                        .addStep(new AnimationStep(9, 0, -14, 0, true, true))
+                        .addStep(new AnimationStep(16, 0, 14, 0, true, true))
+                        .addStep(new AnimationStep(7, 0, 1.75f, 0, true, true))
+        );
+
+        currentAnimation.add(
+                new AnimationPart(FinStart)
+                        .addStep(new AnimationStep(9, 0, -20, 0, true, true))
+                        .addStep(new AnimationStep(16, 0, 20, 0, true, true))
+                        .addStep(new AnimationStep(7, 0, 2.5f, 0, true, true))
+        );
+
+        currentAnimation.add(
+                new AnimationPart(FinMiddle)
+                        .addStep(new AnimationStep(2, 0, 30, 0, true, true))
+                        .addStep(new AnimationStep(6, 0, 30, 0, true, true)) //Pause
+                        .addStep(new AnimationStep(4, 0, -30, 0, true, true))
+                        .addStep(new AnimationStep(12, 0, -30, 0, true, true)) //Pause
+                        .addStep(new AnimationStep(2, 0, 0, 0, true, true))
+                        .addStep(new AnimationStep(5, 0, 0, 0, true, true)) //Pause
         );
     }
 
@@ -96,7 +137,7 @@ public class ModelMerpig extends ModelBase
         this.flipper1.render(f5);
         this.TailBase.render(f5);
         this.merpigbody.render(f5);
-        this.merpignose.render(f5);
+        //this.merpignose.render(f5);
         this.merpighead.render(f5);
     }
 
@@ -111,12 +152,40 @@ public class ModelMerpig extends ModelBase
     }
 
     @Override
-    public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTickTime)
+    public void setLivingAnimations(EntityLivingBase entity, float limbSwing, float limbSwingAmount, float partialTickTime)
     {
-        int time = entitylivingbaseIn.ticksExisted % animation.duration;
-        float progress = (time / (float) animation.duration);
-        System.out.println((String.format("[%s]Render Data: %s %s %s", entitylivingbaseIn, time, progress, partialTickTime)));
-        animation.apply(progress, partialTickTime);
+        if (entity instanceof EntityMerpig)
+        {
+            EntityMerpig merpig = (EntityMerpig) entity;
+
+            //Create object to save rotation states per entity
+            if (merpig.rotationStorage == null)
+            {
+                merpig.rotationStorage = new Animation(0)
+                        .add(new AnimationPart(merpigbody))
+                        .add(new AnimationPart(flipper1))
+                        .add(new AnimationPart(flipper2))
+                        .add(new AnimationPart(merpighead))
+                        .add(new AnimationPart(merpignose))
+                        .add(new AnimationPart(TailBase))
+                        .add(new AnimationPart(headfin))
+                        .add(new AnimationPart(TailMiddle))
+                        .add(new AnimationPart(FinStart))
+                        .add(new AnimationPart(FinMiddle))
+                        .add(new AnimationPart(FinEnd));
+            }
+
+            //Restore rotation data
+            currentAnimation.restoreRotations(merpig.rotationStorage);
+
+            //Render current animation state
+            //System.out.println((String.format("[%s]Render Data: %s %s %s", entitylivingbaseIn, time, progress, partialTickTime)));
+            int ticks = entity.ticksExisted;
+            currentAnimation.applyFromLifeTicks(ticks, partialTickTime);
+
+            //Store rotation data
+            currentAnimation.copyRotations(merpig.rotationStorage);
+        }
     }
 
     @Override

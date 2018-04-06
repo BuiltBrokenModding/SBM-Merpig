@@ -18,12 +18,49 @@ public class AnimationPart
     /** Last step in the linked list of animations */
     protected AnimationStep last;
 
+    float prev_rotateAngleX;
+    float prev_rotateAngleY;
+    float prev_rotateAngleZ;
+
     public AnimationPart(ModelRenderer renderer)
     {
         this.renderer = renderer;
-        first = new AnimationStep(0, renderer.rotateAngleX, renderer.rotateAngleY, renderer.rotateAngleZ, true, false);
+        //Create first
+        first = new AnimationStep(0, (float) Math.toDegrees(renderer.rotateAngleX), (float) Math.toDegrees(renderer.rotateAngleY), (float) Math.toDegrees(renderer.rotateAngleZ), true, false);
+
+        //Copy base data
+        prev_rotateAngleX = first.rotateAngleX;
+        prev_rotateAngleY = first.rotateAngleY;
+        prev_rotateAngleZ = first.rotateAngleZ;
+
+        //Wrap first to self
         last = first;
     }
+
+    /**
+     * Called to copy the current rotations into the part
+     *
+     * @param part - part to copy data into
+     */
+    public void copyRotations(AnimationPart part)
+    {
+        part.prev_rotateAngleX = prev_rotateAngleX;
+        part.prev_rotateAngleY = prev_rotateAngleY;
+        part.prev_rotateAngleZ = prev_rotateAngleZ;
+    }
+
+    /**
+     * Called to set rotation data
+     *
+     * @param part - part to take data from
+     */
+    public void setRotations(AnimationPart part)
+    {
+        prev_rotateAngleX = part.prev_rotateAngleX;
+        prev_rotateAngleY = part.prev_rotateAngleY;
+        prev_rotateAngleZ = part.prev_rotateAngleZ;
+    }
+
 
     /**
      * Called to apply animation to part
@@ -33,12 +70,10 @@ public class AnimationPart
      */
     public void apply(int time, float delta)
     {
-        //TODO find a faster way to get current step
-        int count = 0;
-
         //Figure out what step we are on based on time
         AnimationStep currentStep = first.nextStep;
-        while (currentStep != first.nextStep)
+        int count = 0;
+        while (currentStep != first)
         {
             //Count duration of each step
             count += currentStep.duraction;
@@ -56,9 +91,15 @@ public class AnimationPart
                 currentStep.apply(renderer, progress, delta);
 
                 //Exit
-                return;
+                break;
             }
+            currentStep = currentStep.nextStep;
         }
+
+        //Track previous rotation
+        prev_rotateAngleX = renderer.rotateAngleX;
+        prev_rotateAngleY = renderer.rotateAngleY;
+        prev_rotateAngleZ = renderer.rotateAngleZ;
     }
 
     /**
@@ -80,6 +121,9 @@ public class AnimationPart
 
         //Set current next to first
         step.nextStep = first;
+
+        //Set host
+        step.host = this;
         return this;
     }
 }

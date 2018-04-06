@@ -1,5 +1,6 @@
 package com.builtbroken.merpig.entity;
 
+import com.builtbroken.merpig.animation.Animation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
@@ -10,6 +11,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 
@@ -21,6 +24,9 @@ import javax.annotation.Nullable;
  */
 public class EntityMerpig extends EntityWaterMob
 {
+    @SideOnly(Side.CLIENT)
+    public Animation rotationStorage;
+
     public EntityMerpig(World worldIn)
     {
         super(worldIn);

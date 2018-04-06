@@ -10,6 +10,7 @@ public class AnimationStep
 {
     public AnimationStep previousStep;
     public AnimationStep nextStep;
+    public AnimationPart host;
 
     boolean rotateX = false;
     boolean rotateY = false;
@@ -26,9 +27,9 @@ public class AnimationStep
     public AnimationStep(int duration, float x, float y, float z, boolean lerp, boolean zeroDisable)
     {
         this.duraction = duration;
-        this.rotateAngleX = x;
-        this.rotateAngleY = y;
-        this.rotateAngleZ = z;
+        this.rotateAngleX = (float) Math.toRadians(x);
+        this.rotateAngleY = (float) Math.toRadians(y);
+        this.rotateAngleZ = (float) Math.toRadians(z);
         this.lerp = lerp;
 
         if (zeroDisable)
@@ -58,27 +59,40 @@ public class AnimationStep
     {
         if (rotateX)
         {
-            renderer.rotateAngleX = lerp ? lerp(renderer.rotateAngleX, rotateAngleX, deltaTime) : rotateAngleX;
+            float startingRotation = previousStep != null ? previousStep.rotateAngleX : 0;
+            renderer.rotateAngleX = calculateRotation(host.prev_rotateAngleX, startingRotation, rotateAngleX, time, deltaTime);
         }
         if (rotateY)
         {
-            renderer.rotateAngleY = lerp ? lerp(renderer.rotateAngleY, rotateAngleY, deltaTime) : rotateAngleY;
+            float startingRotation = previousStep != null ? previousStep.rotateAngleY : 0;
+            renderer.rotateAngleY = calculateRotation(host.prev_rotateAngleY, startingRotation, rotateAngleY, time, deltaTime);
         }
         if (rotateZ)
         {
-            //TODO cache movement rate, as it should only be run on setup
-
-            //Calculate movement rate
-            float prev_rotation = previousStep != null ? previousStep.rotateAngleZ : 0;
-            float travel_distance = Math.abs(prev_rotation - rotateAngleZ);
-            float movementR_rate = travel_distance / duraction;
-
-            //Get rotation for current time
-            float rotation = prev_rotation + movementR_rate * time;
-
-            //Set rotation
-            renderer.rotateAngleZ = lerp ? lerp(renderer.rotateAngleZ, rotation, deltaTime) : rotateAngleZ;
+            float startingRotation = previousStep != null ? previousStep.rotateAngleZ : 0;
+            renderer.rotateAngleZ = calculateRotation(host.prev_rotateAngleZ, startingRotation, rotateAngleZ, time, deltaTime);
         }
+    }
+
+    protected float calculateRotation(float current_rotation, float startingRotation, float goalRotation, int time, float deltaTime)
+    {
+        //Figure out how far we need to move
+        float movementDirection = getMovement(startingRotation, goalRotation);
+
+        //Fire out how far we move per tick
+        float movementPerTime = movementDirection / duraction;
+
+        //Get rotation for current time
+        float movement = movementPerTime * time;
+        float rotation = startingRotation + movement;
+
+        //Lerp rotation id desired
+        return lerp ? lerp(current_rotation, rotation, deltaTime) : rotation;
+    }
+
+    protected float getMovement(float start, float end)
+    {
+        return -(start - end);
     }
 
     public AnimationStep enableX()

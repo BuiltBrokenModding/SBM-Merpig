@@ -1,6 +1,9 @@
 package com.builtbroken.merpig.animation;
 
+import net.minecraft.client.model.ModelRenderer;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -13,6 +16,7 @@ public class Animation
 {
     /** List of parts to animate */
     protected final List<AnimationPart> partsToAnimate = new ArrayList();
+    protected final HashMap<ModelRenderer, AnimationPart> partMap = new HashMap();
 
     /** Total duration of all parts */
     public final int duration;
@@ -34,6 +38,7 @@ public class Animation
     public Animation add(AnimationPart part)
     {
         partsToAnimate.add(part);
+        partMap.put(part.renderer, part);
         return this;
     }
 
@@ -43,15 +48,48 @@ public class Animation
      * @param progress - progress of the animation (0.0 - 1.0)
      * @param delta    - time since last frame (Used to smooth animation)
      */
-    public void apply(float progress, float delta)
+    public void applyFromProgress(float progress, float delta)
     {
         //Get time from progress
         int time = (int) Math.floor(progress * duration);
+        apply(time, delta);
+    }
 
+    public void applyFromLifeTicks(int ticks, float delta)
+    {
+        int time = ticks % duration;
+        //float progress = (time / (float) animation.duration);
+        apply(time, delta);
+    }
+
+    public void apply(int time, float delta)
+    {
         //Animate all parts
         for (AnimationPart part : partsToAnimate)
         {
             part.apply(time, delta);
+        }
+    }
+
+    public void restoreRotations(Animation rotationStorage)
+    {
+        for (AnimationPart part : rotationStorage.partsToAnimate)
+        {
+            if (partMap.containsKey(part.renderer))
+            {
+                partMap.get(part.renderer).setRotations(part);
+            }
+        }
+    }
+
+    public void copyRotations(Animation rotationStorage)
+    {
+        for (AnimationPart part : rotationStorage.partsToAnimate)
+        {
+            if (partMap.containsKey(part.renderer))
+            {
+                partMap.get(part.renderer).copyRotations(part);
+            }
         }
     }
 }
