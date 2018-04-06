@@ -21,7 +21,7 @@ public class LayerSaddleMerpig implements LayerRenderer<EntityMerpig>
     @Override
     public void doRenderLayer(EntityMerpig entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
-        if (entitylivingbaseIn.getSaddled())
+        if (entitylivingbaseIn.isSaddled())
         {
             this.pigRenderer.bindTexture(TEXTURE);
             this.pigModel.setModelAttributes(this.pigRenderer.getMainModel());

@@ -39,6 +39,11 @@ public class EntityMerpig extends EntityWaterMob
     @SideOnly(Side.CLIENT)
     public Animation rotationStorage;
 
+    private float randomMotionSpeed;
+    private float randomMotionVecX;
+    private float randomMotionVecY;
+    private float randomMotionVecZ;
+
     public EntityMerpig(World worldIn)
     {
         super(worldIn);
@@ -56,6 +61,7 @@ public class EntityMerpig extends EntityWaterMob
     @Override
     protected void initEntityAI()
     {
+        this.tasks.addTask(0, new AIMoveRandom(this));
         this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
         this.tasks.addTask(8, new EntityAILookIdle(this));
     }
@@ -87,12 +93,30 @@ public class EntityMerpig extends EntityWaterMob
     }
 
     @Override
+    public void onLivingUpdate()
+    {
+        super.onLivingUpdate();
+
+        if (isInWater())
+        {
+            if (!this.world.isRemote)
+            {
+                this.motionX = this.randomMotionVecX;
+                this.motionY = this.randomMotionSpeed;
+                this.motionZ = this.randomMotionSpeed;
+            }
+
+            this.renderYawOffset += (-((float) MathHelper.atan2(this.motionX, this.motionZ)) * (180F / (float) Math.PI) - this.renderYawOffset) * 0.1F;
+            this.rotationYaw = this.renderYawOffset;
+        }
+    }
+
+    @Override
     public void travel(float strafe, float vertical, float forward)
     {
-        if(isInWater())
+        if (isInWater())
         {
             Entity entity = this.getPassengers().isEmpty() ? null : (Entity) this.getPassengers().get(0);
-
             if (this.isBeingRidden() && this.canBeSteered())
             {
                 //Sync rotation
@@ -114,7 +138,6 @@ public class EntityMerpig extends EntityWaterMob
 
                     //Get vertical movement
                     float v = entity.rotationPitch / 180f;
-
                     super.travel(0.0F, -v * 4, 1.0F);
                 }
                 else
@@ -163,7 +186,7 @@ public class EntityMerpig extends EntityWaterMob
                 itemstack.interactWithEntity(player, this, hand);
                 return true;
             }
-            else if (getSaddled() && !this.isBeingRidden())
+            else if (isSaddled() && !this.isBeingRidden())
             {
                 if (!this.world.isRemote)
                 {
@@ -173,7 +196,7 @@ public class EntityMerpig extends EntityWaterMob
             }
             else if (itemstack.getItem() == Items.SADDLE)
             {
-                if (!getSaddled())
+                if (!isSaddled())
                 {
                     setSaddled(true);
                     world.playSound(player, posX, posY, posZ, SoundEvents.ENTITY_PIG_SADDLE, SoundCategory.NEUTRAL, 0.5F, 1.0F);
@@ -193,7 +216,7 @@ public class EntityMerpig extends EntityWaterMob
 
         if (!this.world.isRemote)
         {
-            if (this.getSaddled())
+            if (this.isSaddled())
             {
                 this.dropItem(Items.SADDLE, 1);
             }
@@ -210,7 +233,7 @@ public class EntityMerpig extends EntityWaterMob
     /**
      * Returns true if the pig is saddled.
      */
-    public boolean getSaddled()
+    public boolean isSaddled()
     {
         return ((Boolean) this.dataManager.get(SADDLED)).booleanValue();
     }
@@ -234,7 +257,7 @@ public class EntityMerpig extends EntityWaterMob
     public void writeEntityToNBT(NBTTagCompound compound)
     {
         super.writeEntityToNBT(compound);
-        compound.setBoolean("Saddle", this.getSaddled());
+        compound.setBoolean("Saddle", this.isSaddled());
     }
 
     @Override
@@ -277,7 +300,7 @@ public class EntityMerpig extends EntityWaterMob
     @Override
     protected float getWaterSlowDown()
     {
-        return 1F;
+        return isBeingRidden() ? 0.99F : 0.8f;
     }
 
     @Override
@@ -290,5 +313,17 @@ public class EntityMerpig extends EntityWaterMob
     protected boolean canDespawn()
     {
         return false;
+    }
+
+    public void setMovementVector(float randomMotionVecXIn, float randomMotionVecYIn, float randomMotionVecZIn)
+    {
+        this.randomMotionVecX = randomMotionVecXIn;
+        this.randomMotionVecY = randomMotionVecYIn;
+        this.randomMotionVecZ = randomMotionVecZIn;
+    }
+
+    public boolean hasMovementVector()
+    {
+        return this.randomMotionVecX != 0.0F || this.randomMotionVecY != 0.0F || this.randomMotionVecZ != 0.0F;
     }
 }
