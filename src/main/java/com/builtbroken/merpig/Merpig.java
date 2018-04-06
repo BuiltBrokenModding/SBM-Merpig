@@ -2,6 +2,10 @@ package com.builtbroken.merpig;
 
 import com.builtbroken.merpig.entity.EntityMerpig;
 import com.builtbroken.merpig.item.ItemSeagrassOnStick;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntitySpawnPlacementRegistry;
+import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.init.Biomes;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
@@ -53,6 +57,9 @@ public class Merpig
         builder.tracker(128, 1, true);
         builder.entity(EntityMerpig.class);
         builder.egg(Color.BLUE.getRGB(), Color.GREEN.getRGB());
+        builder.spawn(EnumCreatureType.WATER_CREATURE, 10, 2, 5, Biomes.OCEAN, Biomes.DEEP_OCEAN);
         event.getRegistry().register(builder.build());
+
+        EntitySpawnPlacementRegistry.setPlacementType(EntityMerpig.class, EntityLiving.SpawnPlacementType.IN_WATER);
     }
 }
