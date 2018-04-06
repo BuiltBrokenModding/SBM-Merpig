@@ -102,8 +102,8 @@ public class EntityMerpig extends EntityWaterMob
             if (!this.world.isRemote)
             {
                 this.motionX = this.randomMotionVecX;
-                this.motionY = this.randomMotionSpeed;
-                this.motionZ = this.randomMotionSpeed;
+                this.motionY = this.randomMotionVecY;
+                this.motionZ = this.randomMotionVecZ;
             }
 
             this.renderYawOffset += (-((float) MathHelper.atan2(this.motionX, this.motionZ)) * (180F / (float) Math.PI) - this.renderYawOffset) * 0.1F;
