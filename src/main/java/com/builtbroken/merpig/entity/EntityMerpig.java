@@ -7,7 +7,6 @@ import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.passive.EntityWaterMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -34,12 +33,11 @@ import javax.annotation.Nullable;
  */
 public class EntityMerpig extends EntityWaterMob
 {
-    private static final DataParameter<Boolean> SADDLED = EntityDataManager.<Boolean>createKey(EntityPig.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Boolean> SADDLED = EntityDataManager.<Boolean>createKey(EntityMerpig.class, DataSerializers.BOOLEAN);
 
     @SideOnly(Side.CLIENT)
     public Animation rotationStorage;
 
-    private float randomMotionSpeed;
     private float randomMotionVecX;
     private float randomMotionVecY;
     private float randomMotionVecZ;
