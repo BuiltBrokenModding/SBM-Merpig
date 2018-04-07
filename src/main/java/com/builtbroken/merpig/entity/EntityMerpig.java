@@ -33,11 +33,21 @@ import javax.annotation.Nullable;
  */
 public class EntityMerpig extends EntityWaterMob
 {
+    //Data values
     private static final DataParameter<Boolean> SADDLED = EntityDataManager.<Boolean>createKey(EntityMerpig.class, DataSerializers.BOOLEAN);
 
+    //Constants
+    public static final String NBT_SADDLE = "Saddle";
+
+    //Settings TODO move to config
+    public static float WATER_MOVEMENT_FACTOR = 0.8f;
+    public static float WATER_MOVEMENT_FACTOR_RIDDEN = 0.99f;
+
+    /** Storage for animation state */ //TODO move to capability?
     @SideOnly(Side.CLIENT)
     public Animation rotationStorage;
 
+    //Movement vector
     private float randomMotionVecX;
     private float randomMotionVecY;
     private float randomMotionVecZ;
@@ -85,9 +95,14 @@ public class EntityMerpig extends EntityWaterMob
         if (entity instanceof EntityPlayer)
         {
             EntityPlayer entityplayer = (EntityPlayer) entity;
-            return entityplayer.getHeldItemMainhand().getItem() instanceof ItemSeagrassOnStick || entityplayer.getHeldItemOffhand().getItem() instanceof ItemSeagrassOnStick;
+            return isSteeringItem(entityplayer.getHeldItemMainhand()) || isSteeringItem(entityplayer.getHeldItemOffhand());
         }
         return false;
+    }
+
+    protected boolean isSteeringItem(ItemStack stack)
+    {
+        return stack.getItem() instanceof ItemSeagrassOnStick;  //TODO add support more items
     }
 
     @Override
@@ -95,15 +110,22 @@ public class EntityMerpig extends EntityWaterMob
     {
         super.onLivingUpdate();
 
-        if (isInWater())
+        //If in water and not a mount, move randomly to simulate life
+        if (isInWater() && !isSaddled())
         {
             if (!this.world.isRemote)
             {
-                this.motionX = this.randomMotionVecX;
-                this.motionY = this.randomMotionVecY;
-                this.motionZ = this.randomMotionVecZ;
+                //Set speed
+                float speed = (float) this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue();
+                this.setAIMoveSpeed(speed);
+
+                //Move entity in vector direction
+                this.motionX = this.randomMotionVecX * getAIMoveSpeed();
+                this.motionY = this.randomMotionVecY * getAIMoveSpeed();
+                this.motionZ = this.randomMotionVecZ * getAIMoveSpeed();
             }
 
+            //Update rotation to face movement
             this.renderYawOffset += (-((float) MathHelper.atan2(this.motionX, this.motionZ)) * (180F / (float) Math.PI) - this.renderYawOffset) * 0.1F;
             this.rotationYaw = this.renderYawOffset;
         }
@@ -255,14 +277,14 @@ public class EntityMerpig extends EntityWaterMob
     public void writeEntityToNBT(NBTTagCompound compound)
     {
         super.writeEntityToNBT(compound);
-        compound.setBoolean("Saddle", this.isSaddled());
+        compound.setBoolean(NBT_SADDLE, this.isSaddled());
     }
 
     @Override
     public void readEntityFromNBT(NBTTagCompound compound)
     {
         super.readEntityFromNBT(compound);
-        this.setSaddled(compound.getBoolean("Saddle"));
+        this.setSaddled(compound.getBoolean(NBT_SADDLE));
     }
 
     @Override
@@ -298,7 +320,7 @@ public class EntityMerpig extends EntityWaterMob
     @Override
     protected float getWaterSlowDown()
     {
-        return isBeingRidden() ? 0.99F : 0.8f;
+        return isBeingRidden() ? WATER_MOVEMENT_FACTOR_RIDDEN : WATER_MOVEMENT_FACTOR;
     }
 
     @Override
