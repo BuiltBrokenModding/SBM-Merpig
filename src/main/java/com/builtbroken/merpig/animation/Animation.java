@@ -1,10 +1,10 @@
 package com.builtbroken.merpig.animation;
 
-import net.minecraft.client.model.ModelRenderer;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import net.minecraft.client.renderer.entity.model.ModelRenderer;
 
 /**
  * Handles a single animation
@@ -15,8 +15,8 @@ import java.util.List;
 public class Animation
 {
     /** List of parts to animate */
-    protected final List<AnimationPart> partsToAnimate = new ArrayList();
-    protected final HashMap<ModelRenderer, AnimationPart> partMap = new HashMap();
+    protected final List<AnimationPart> partsToAnimate = new ArrayList<>();
+    protected final HashMap<ModelRenderer, AnimationPart> partMap = new HashMap<>();
 
     /** Total duration of all parts */
     public final int duration;

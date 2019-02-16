@@ -9,10 +9,10 @@
       "item": "minecraft:fishing_rod"
     },
     "X": {
-      "item": "minecraft:tallgrass"
+      "item": "minecraft:seagrass"
     }
   },
   "result": {
-    "item": "merpig:seagrass_on_a_stick"
+    "item": "merpig:seagrassonastick"
   }
 }

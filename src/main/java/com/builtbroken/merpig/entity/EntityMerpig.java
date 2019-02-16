@@ -1,7 +1,11 @@
 package com.builtbroken.merpig.entity;
 
+import javax.annotation.Nullable;
+
+import com.builtbroken.merpig.Merpig;
 import com.builtbroken.merpig.animation.Animation;
 import com.builtbroken.merpig.item.ItemSeagrassOnStick;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -16,14 +20,16 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.*;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTableList;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nullable;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 /**
  * Pig that swims through water :P
@@ -44,7 +50,7 @@ public class EntityMerpig extends EntityWaterMob
     public static float WATER_MOVEMENT_FACTOR_RIDDEN = 0.99f;
 
     /** Storage for animation state */ //TODO move to capability?
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public Animation rotationStorage;
 
     //Movement vector
@@ -54,14 +60,14 @@ public class EntityMerpig extends EntityWaterMob
 
     public EntityMerpig(World worldIn)
     {
-        super(worldIn);
+        super(Merpig.MERPIG_ENTITY_TYPE, worldIn);
         this.setSize(0.8F, 0.8F);
     }
 
     @Override
-    protected void entityInit()
+    protected void registerData()
     {
-        super.entityInit();
+        super.registerData();
         this.dataManager.register(SADDLED, Boolean.valueOf(false));
         //this.dataManager.register(BOOST_TIME, Integer.valueOf(0)); TODO add
     }
@@ -75,11 +81,11 @@ public class EntityMerpig extends EntityWaterMob
     }
 
     @Override
-    protected void applyEntityAttributes()
+    protected void registerAttributes()
     {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.5D);
+        super.registerAttributes();
+        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20.0D);
+        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.5D);
     }
 
     @Nullable
@@ -106,9 +112,9 @@ public class EntityMerpig extends EntityWaterMob
     }
 
     @Override
-    public void onLivingUpdate()
+    public void livingTick()
     {
-        super.onLivingUpdate();
+        super.livingTick();
 
         //If in water and not a mount, move randomly to simulate life
         if (isInWater() && !isSaddled())
@@ -116,7 +122,7 @@ public class EntityMerpig extends EntityWaterMob
             if (!this.world.isRemote)
             {
                 //Set speed
-                float speed = (float) this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue();
+                float speed = (float) this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
                 this.setAIMoveSpeed(speed);
 
                 //Move entity in vector direction
@@ -153,7 +159,7 @@ public class EntityMerpig extends EntityWaterMob
                 if (this.canPassengerSteer())
                 {
                     //Set speed
-                    float speed = (float) this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue();
+                    float speed = (float) this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
                     this.setAIMoveSpeed(speed);
 
                     //Get vertical movement
@@ -238,7 +244,7 @@ public class EntityMerpig extends EntityWaterMob
         {
             if (this.isSaddled())
             {
-                this.dropItem(Items.SADDLE, 1);
+                this.entityDropItem(Items.SADDLE, 1);
             }
         }
     }
@@ -255,7 +261,7 @@ public class EntityMerpig extends EntityWaterMob
      */
     public boolean isSaddled()
     {
-        return ((Boolean) this.dataManager.get(SADDLED)).booleanValue();
+        return this.dataManager.get(SADDLED).booleanValue();
     }
 
     /**
@@ -274,16 +280,16 @@ public class EntityMerpig extends EntityWaterMob
     }
 
     @Override
-    public void writeEntityToNBT(NBTTagCompound compound)
+    public void writeAdditional(NBTTagCompound compound)
     {
-        super.writeEntityToNBT(compound);
-        compound.setBoolean(NBT_SADDLE, this.isSaddled());
+        super.writeAdditional(compound);
+        compound.putBoolean(NBT_SADDLE, this.isSaddled());
     }
 
     @Override
-    public void readEntityFromNBT(NBTTagCompound compound)
+    public void readAdditional(NBTTagCompound compound)
     {
-        super.readEntityFromNBT(compound);
+        super.readAdditional(compound);
         this.setSaddled(compound.getBoolean(NBT_SADDLE));
     }
 
@@ -330,7 +336,7 @@ public class EntityMerpig extends EntityWaterMob
     }
 
     @Override
-    protected boolean canDespawn()
+    public boolean canDespawn()
     {
         return false;
     }

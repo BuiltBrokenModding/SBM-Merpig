@@ -25,7 +25,7 @@ class AIMoveRandom extends EntityAIBase
     }
 
     @Override
-    public void updateTask()
+    public void tick()
     {
         int i = this.merpig.getIdleTime();
 

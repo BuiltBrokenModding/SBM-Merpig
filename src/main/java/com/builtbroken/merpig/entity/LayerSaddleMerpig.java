@@ -1,12 +1,12 @@
 package com.builtbroken.merpig.entity;
 
-import net.minecraft.client.model.ModelPig;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
+import net.minecraft.client.renderer.entity.model.ModelPig;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class LayerSaddleMerpig implements LayerRenderer<EntityMerpig>
 {
     private static final ResourceLocation TEXTURE = new ResourceLocation("textures/entity/pig/pig_saddle.png");
@@ -19,7 +19,7 @@ public class LayerSaddleMerpig implements LayerRenderer<EntityMerpig>
     }
 
     @Override
-    public void doRenderLayer(EntityMerpig entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
+    public void render(EntityMerpig entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
     {
         if (entitylivingbaseIn.isSaddled())
         {

@@ -1,6 +1,6 @@
 package com.builtbroken.merpig.animation;
 
-import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.client.renderer.entity.model.ModelRenderer;
 
 /**
  * Handles animation loop for a single part of a model

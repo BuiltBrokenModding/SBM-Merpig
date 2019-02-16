@@ -3,8 +3,9 @@ package com.builtbroken.merpig.entity;
 import com.builtbroken.merpig.animation.Animation;
 import com.builtbroken.merpig.animation.AnimationPart;
 import com.builtbroken.merpig.animation.AnimationStep;
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelRenderer;
+
+import net.minecraft.client.renderer.entity.model.ModelBase;
+import net.minecraft.client.renderer.entity.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 
@@ -82,52 +83,52 @@ public class ModelMerpig extends ModelBase
         currentAnimation = new Animation(32);
         currentAnimation.add(
                 new AnimationPart(flipper1)
-                        .addStep(new AnimationStep(4, 0, 0, -65f, true, true))
-                        .addStep(new AnimationStep(8, 0, 0, -18.48f, true, true))
-                        .addStep(new AnimationStep(6, 0, 0, -65f, true, true))
-                        .addStep(new AnimationStep(8, 0, 0, -18.48f, true, true))
-                        .addStep(new AnimationStep(3, 0, 0, -35.92f, true, true))
-        );
+                .addStep(new AnimationStep(4, 0, 0, -65f, true, true))
+                .addStep(new AnimationStep(8, 0, 0, -18.48f, true, true))
+                .addStep(new AnimationStep(6, 0, 0, -65f, true, true))
+                .addStep(new AnimationStep(8, 0, 0, -18.48f, true, true))
+                .addStep(new AnimationStep(3, 0, 0, -35.92f, true, true))
+                );
 
         currentAnimation.add(
                 new AnimationPart(flipper2)
-                        .addStep(new AnimationStep(4, 0, 0, 65f, true, true))
-                        .addStep(new AnimationStep(8, 0, 0, 18.48f, true, true))
-                        .addStep(new AnimationStep(6, 0, 0, 65f, true, true))
-                        .addStep(new AnimationStep(8, 0, 0, 18.48f, true, true))
-                        .addStep(new AnimationStep(3, 0, 0, 35.92f, true, true))
-        );
+                .addStep(new AnimationStep(4, 0, 0, 65f, true, true))
+                .addStep(new AnimationStep(8, 0, 0, 18.48f, true, true))
+                .addStep(new AnimationStep(6, 0, 0, 65f, true, true))
+                .addStep(new AnimationStep(8, 0, 0, 18.48f, true, true))
+                .addStep(new AnimationStep(3, 0, 0, 35.92f, true, true))
+                );
 
         currentAnimation.add(
                 new AnimationPart(TailBase)
-                        .addStep(new AnimationStep(9, 0, -8, 0, true, true))
-                        .addStep(new AnimationStep(16, 0, 8, 0, true, true))
-                        .addStep(new AnimationStep(7, 0, 1, 0, true, true))
-        );
+                .addStep(new AnimationStep(9, 0, -8, 0, true, true))
+                .addStep(new AnimationStep(16, 0, 8, 0, true, true))
+                .addStep(new AnimationStep(7, 0, 1, 0, true, true))
+                );
 
         currentAnimation.add(
                 new AnimationPart(TailMiddle)
-                        .addStep(new AnimationStep(9, 0, -14, 0, true, true))
-                        .addStep(new AnimationStep(16, 0, 14, 0, true, true))
-                        .addStep(new AnimationStep(7, 0, 1.75f, 0, true, true))
-        );
+                .addStep(new AnimationStep(9, 0, -14, 0, true, true))
+                .addStep(new AnimationStep(16, 0, 14, 0, true, true))
+                .addStep(new AnimationStep(7, 0, 1.75f, 0, true, true))
+                );
 
         currentAnimation.add(
                 new AnimationPart(FinStart)
-                        .addStep(new AnimationStep(9, 0, -20, 0, true, true))
-                        .addStep(new AnimationStep(16, 0, 20, 0, true, true))
-                        .addStep(new AnimationStep(7, 0, 2.5f, 0, true, true))
-        );
+                .addStep(new AnimationStep(9, 0, -20, 0, true, true))
+                .addStep(new AnimationStep(16, 0, 20, 0, true, true))
+                .addStep(new AnimationStep(7, 0, 2.5f, 0, true, true))
+                );
 
         currentAnimation.add(
                 new AnimationPart(FinMiddle)
-                        .addStep(new AnimationStep(2, 0, 30, 0, true, true))
-                        .addStep(new AnimationStep(6, 0, 30, 0, true, true)) //Pause
-                        .addStep(new AnimationStep(4, 0, -30, 0, true, true))
-                        .addStep(new AnimationStep(12, 0, -30, 0, true, true)) //Pause
-                        .addStep(new AnimationStep(2, 0, 0, 0, true, true))
-                        .addStep(new AnimationStep(5, 0, 0, 0, true, true)) //Pause
-        );
+                .addStep(new AnimationStep(2, 0, 30, 0, true, true))
+                .addStep(new AnimationStep(6, 0, 30, 0, true, true)) //Pause
+                .addStep(new AnimationStep(4, 0, -30, 0, true, true))
+                .addStep(new AnimationStep(12, 0, -30, 0, true, true)) //Pause
+                .addStep(new AnimationStep(2, 0, 0, 0, true, true))
+                .addStep(new AnimationStep(5, 0, 0, 0, true, true)) //Pause
+                );
     }
 
     @Override

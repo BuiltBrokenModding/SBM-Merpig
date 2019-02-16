@@ -1,32 +1,41 @@
 package com.builtbroken.merpig;
 
-import com.builtbroken.merpig.config.ConfigSpawn;
-import com.builtbroken.merpig.entity.EntityMerpig;
-import com.builtbroken.merpig.item.ItemSeagrassOnStick;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntitySpawnPlacementRegistry;
-import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.biome.Biome;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.EntityEntry;
-import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
+import java.awt.Color;
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
+import com.builtbroken.merpig.config.ConfigSpawn;
+import com.builtbroken.merpig.entity.EntityMerpig;
+import com.builtbroken.merpig.item.ItemSeagrassOnStick;
+
+import net.minecraft.entity.EntitySpawnPlacementRegistry;
+import net.minecraft.entity.EntitySpawnPlacementRegistry.SpawnPlacementType;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemSpawnEgg;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.Heightmap.Type;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.ForgeRegistries;
 
 /**
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 3/28/2018.
  */
-@Mod(modid = Merpig.DOMAIN, name = "[SBM] Merpig", version = Merpig.VERSION)
-@Mod.EventBusSubscriber
+@Mod(Merpig.DOMAIN)
+@EventBusSubscriber(bus=Bus.MOD)
 public class Merpig
 {
     public static final String DOMAIN = "merpig";
@@ -39,65 +48,49 @@ public class Merpig
     public static final String MC_VERSION = "@MC@";
     public static final String VERSION = MC_VERSION + "-" + MAJOR_VERSION + "." + MINOR_VERSION + "." + REVISION_VERSION + "." + BUILD_VERSION;
 
-    @Mod.Instance(DOMAIN)
     public static Merpig INSTANCE;
 
     protected static Logger logger = LogManager.getLogger(DOMAIN);
 
     public static Item itemStick;
+    public static Item merpigSpawnEgg;
 
-    public static final int ENTITY_ID_PREFIX = 50;
-    private static int nextEntityID = ENTITY_ID_PREFIX;
+    public static final EntityType<EntityMerpig> MERPIG_ENTITY_TYPE = EntityType.register(PREFIX + "merpig", EntityType.Builder.create(EntityMerpig.class, EntityMerpig::new).tracker(128, 1, true));
+
+    public Merpig()
+    {
+        INSTANCE = this;
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigSpawn.CONFIG_SPEC);
+        //Fix for spawn placement
+        EntitySpawnPlacementRegistry.register(MERPIG_ENTITY_TYPE, SpawnPlacementType.IN_WATER, Type.MOTION_BLOCKING_NO_LEAVES, null);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onLoadComplete);
+    }
+
+    public void onLoadComplete(FMLLoadCompleteEvent event)
+    {
+        List<? extends String> biomes = ConfigSpawn.CONFIG.biomes.get();
+
+        if(ConfigSpawn.CONFIG.shouldSpawn.get() && biomes.size() > 0)
+        {
+            for(Biome biome : ForgeRegistries.BIOMES)
+            {
+                if(biomes.contains(biome.getRegistryName().toString()))
+                {
+                    biome.addSpawn(EnumCreatureType.WATER_CREATURE,
+                            new Biome.SpawnListEntry(MERPIG_ENTITY_TYPE,
+                                    ConfigSpawn.CONFIG.spawnWeight.get(),
+                                    ConfigSpawn.CONFIG.spawnMin.get(),
+                                    ConfigSpawn.CONFIG.spawnMax.get()));
+                }
+            }
+        }
+    }
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event)
     {
         event.getRegistry().register(itemStick = new ItemSeagrassOnStick());
-    }
-
-    @SubscribeEvent
-    public static void registerEntity(RegistryEvent.Register<EntityEntry> event)
-    {
-        EntityEntryBuilder builder = EntityEntryBuilder.create();
-        builder.name(PREFIX + "merpig");
-        builder.id(new ResourceLocation(DOMAIN, "merpig"), nextEntityID++);
-        builder.tracker(128, 1, true);
-        builder.entity(EntityMerpig.class);
-        builder.egg(Color.BLUE.getRGB(), Color.GREEN.getRGB());
-
-        //Enable spawns if config is enabled
-        if (ConfigSpawn.SHOULD_SPAWN && ConfigSpawn.BIOMES.length > 0)
-        {
-            //Build supported biome list
-            List<Biome> biomesList = new ArrayList();
-            for (String id : ConfigSpawn.BIOMES)
-            {
-                Biome biome = Biome.REGISTRY.getObject(new ResourceLocation(id));
-                if (biome != null)
-                {
-                    biomesList.add(biome);
-                }
-                else
-                {
-                    logger.error("Merpig#registerEntity() -> Failed to find a biome with id [" + id + "] while loading config data for entity registry");
-                }
-            }
-
-            //Convert to array
-            Biome[] biomes = new Biome[biomesList.size()];
-            for (int i = 0; i < biomesList.size(); i++)
-            {
-                biomes[i] = biomesList.get(i);
-            }
-
-            //Add spawn data
-            builder.spawn(EnumCreatureType.WATER_CREATURE, ConfigSpawn.SPAWN_WEIGHT, ConfigSpawn.SPAWN_MIN, ConfigSpawn.SPAWN_MAX, biomes);
-        }
-
-        //Register entity
-        event.getRegistry().register(builder.build());
-
-        //Fix for spawn placement
-        EntitySpawnPlacementRegistry.setPlacementType(EntityMerpig.class, EntityLiving.SpawnPlacementType.IN_WATER);
+        event.getRegistry().register(merpigSpawnEgg = new ItemSpawnEgg(MERPIG_ENTITY_TYPE, Color.BLUE.getRGB(), Color.GREEN.getRGB(), new Item.Properties()
+                .group(ItemGroup.MISC)).setRegistryName(PREFIX + "merpig_spawn_egg"));
     }
 }
