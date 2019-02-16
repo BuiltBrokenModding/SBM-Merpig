@@ -10,14 +10,14 @@ version="0.0.1" #mandatory
 displayName="[SBM] Merpig" #mandatory
 description='''Ridable sea creature''' #mandatory
 
-[[dependencies.sbmdualwither]]
+[[dependencies.merpig]]
     modId="forge"
     mandatory=true
     versionRange="[25,)"
     ordering="NONE"
     side="BOTH"
 
-[[dependencies.sbmdualwither]]
+[[dependencies.merpig]]
     modId="minecraft"
     mandatory=true
     versionRange="[1.13.2]"
