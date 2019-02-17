@@ -1,15 +1,8 @@
 package com.builtbroken.merpig;
 
-import java.awt.Color;
-import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.builtbroken.merpig.config.ConfigSpawn;
 import com.builtbroken.merpig.entity.EntityMerpig;
 import com.builtbroken.merpig.item.ItemSeagrassOnStick;
-
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntitySpawnPlacementRegistry.SpawnPlacementType;
 import net.minecraft.entity.EntityType;
@@ -21,14 +14,14 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.Heightmap.Type;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
-import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.awt.*;
+import java.util.List;
 
 /**
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
@@ -41,29 +34,17 @@ public class Merpig
     public static final String DOMAIN = "merpig";
     public static final String PREFIX = DOMAIN + ":";
 
-    public static final String MAJOR_VERSION = "@MAJOR@";
-    public static final String MINOR_VERSION = "@MINOR@";
-    public static final String REVISION_VERSION = "@REVIS@";
-    public static final String BUILD_VERSION = "@BUILD@";
-    public static final String MC_VERSION = "@MC@";
-    public static final String VERSION = MC_VERSION + "-" + MAJOR_VERSION + "." + MINOR_VERSION + "." + REVISION_VERSION + "." + BUILD_VERSION;
-
     public static Merpig INSTANCE;
-
-    protected static Logger logger = LogManager.getLogger(DOMAIN);
-
-    public static Item itemStick;
-    public static Item merpigSpawnEgg;
 
     public static final EntityType<EntityMerpig> MERPIG_ENTITY_TYPE = EntityType.register(PREFIX + "merpig", EntityType.Builder.create(EntityMerpig.class, EntityMerpig::new).tracker(128, 1, true));
 
     public Merpig()
     {
         INSTANCE = this;
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigSpawn.CONFIG_SPEC);
+        //ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigSpawn.CONFIG_SPEC);
         //Fix for spawn placement
         EntitySpawnPlacementRegistry.register(MERPIG_ENTITY_TYPE, SpawnPlacementType.IN_WATER, Type.MOTION_BLOCKING_NO_LEAVES, null);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onLoadComplete);
+        //FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onLoadComplete);
     }
 
     public void onLoadComplete(FMLLoadCompleteEvent event)
@@ -89,8 +70,8 @@ public class Merpig
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event)
     {
-        event.getRegistry().register(itemStick = new ItemSeagrassOnStick());
-        event.getRegistry().register(merpigSpawnEgg = new ItemSpawnEgg(MERPIG_ENTITY_TYPE, Color.BLUE.getRGB(), Color.GREEN.getRGB(), new Item.Properties()
+        event.getRegistry().register(new ItemSeagrassOnStick());
+        event.getRegistry().register(new ItemSpawnEgg(MERPIG_ENTITY_TYPE, Color.BLUE.getRGB(), Color.GREEN.getRGB(), new Item.Properties()
                 .group(ItemGroup.MISC)).setRegistryName(PREFIX + "merpig_spawn_egg"));
     }
 }
