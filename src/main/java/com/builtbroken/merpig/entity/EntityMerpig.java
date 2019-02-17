@@ -1,11 +1,8 @@
 package com.builtbroken.merpig.entity;
 
-import javax.annotation.Nullable;
-
 import com.builtbroken.merpig.Merpig;
 import com.builtbroken.merpig.animation.Animation;
 import com.builtbroken.merpig.item.ItemSeagrassOnStick;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -20,16 +17,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.util.*;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import javax.annotation.Nullable;
 
 /**
  * Pig that swims through water :P
@@ -315,6 +310,11 @@ public class EntityMerpig extends EntityWaterMob
     public boolean shouldDismountInWater(Entity rider)
     {
         return false;
+    }
+
+    @Override
+    public boolean canBeRiddenInWater(Entity rider) {
+        return true;
     }
 
     @Override
