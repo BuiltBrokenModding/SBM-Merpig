@@ -14,10 +14,13 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.Heightmap.Type;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.awt.*;
@@ -41,10 +44,10 @@ public class Merpig
     public Merpig()
     {
         INSTANCE = this;
-        //ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigSpawn.CONFIG_SPEC);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigSpawn.CONFIG_SPEC);
         //Fix for spawn placement
         EntitySpawnPlacementRegistry.register(MERPIG_ENTITY_TYPE, SpawnPlacementType.IN_WATER, Type.MOTION_BLOCKING_NO_LEAVES, null);
-        //FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onLoadComplete);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onLoadComplete);
     }
 
     public void onLoadComplete(FMLLoadCompleteEvent event)
