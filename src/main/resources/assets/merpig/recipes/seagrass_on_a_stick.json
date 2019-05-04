@@ -1,18 +1,22 @@
 {
-  "type": "crafting_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     "# ",
     " X"
   ],
   "key": {
     "#": {
-      "item": "minecraft:fishing_rod"
+      "item": "minecraft:fishing_rod",
+      "data": 0
     },
     "X": {
-      "item": "minecraft:tallgrass"
+      "item": "minecraft:tallgrass",
+      "data":1
     }
   },
   "result": {
-    "item": "merpig:seagrass_on_a_stick"
+    "item": "merpig:seagrassonastick",
+    "data": 0,
+    "count": 1
   }
 }
