@@ -21,7 +21,7 @@ public class ItemSeagrassOnStick extends Item
     public ItemSeagrassOnStick()
     {
         this.setCreativeTab(CreativeTabs.TRANSPORTATION);
-        this.setUnlocalizedName(Merpig.PREFIX + "seagrass_on_a_stick");
+        this.setTranslationKey(Merpig.PREFIX + "seagrass_on_a_stick");
         this.setRegistryName(Merpig.DOMAIN, "seagrassonastick");
         this.setMaxStackSize(1);
         this.setMaxDamage(25);

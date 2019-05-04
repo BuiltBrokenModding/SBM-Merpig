@@ -26,7 +26,7 @@ import java.util.List;
  * Created by Dark(DarkGuardsman, Robert) on 3/28/2018.
  */
 @Mod(modid = Merpig.DOMAIN, name = "[SBM] Merpig", version = Merpig.VERSION)
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = Merpig.DOMAIN)
 public class Merpig
 {
     public static final String DOMAIN = "merpig";
