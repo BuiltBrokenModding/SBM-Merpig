@@ -1,17 +1,22 @@
 package com.builtbroken.merpig;
 
+import java.awt.Color;
+import java.util.List;
+
 import com.builtbroken.merpig.config.ConfigSpawn;
 import com.builtbroken.merpig.entity.EntityMerpig;
 import com.builtbroken.merpig.item.ItemSeagrassOnStick;
+
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
-import net.minecraft.entity.EntitySpawnPlacementRegistry.SpawnPlacementType;
+import net.minecraft.entity.EntitySpawnPlacementRegistry.PlacementType;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemSpawnEgg;
+import net.minecraft.item.SpawnEggItem;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.Heightmap.Type;
+import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -20,11 +25,7 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
-
-import java.awt.*;
-import java.util.List;
 
 /**
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
@@ -39,18 +40,19 @@ public class Merpig
 
     public static Merpig INSTANCE;
 
-    public static final EntityType<EntityMerpig> MERPIG_ENTITY_TYPE = EntityType.register(PREFIX + "merpig", EntityType.Builder.create(EntityMerpig.class, EntityMerpig::new).tracker(128, 1, true));
+    public static final EntityType<EntityMerpig> MERPIG_ENTITY_TYPE = (EntityType<EntityMerpig>)EntityType.Builder.<EntityMerpig>create(EntityMerpig::new, EntityClassification.WATER_CREATURE).size(0.8F, 0.8F).setTrackingRange(128).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).build(PREFIX + "merpig").setRegistryName(new ResourceLocation(DOMAIN, "merpig"));
 
     public Merpig()
     {
         INSTANCE = this;
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigSpawn.CONFIG_SPEC);
         //Fix for spawn placement
-        EntitySpawnPlacementRegistry.register(MERPIG_ENTITY_TYPE, SpawnPlacementType.IN_WATER, Type.MOTION_BLOCKING_NO_LEAVES, null);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onLoadComplete);
+        //test with seed 5892482181512470195 frozen ocean near spawn
+        EntitySpawnPlacementRegistry.register(MERPIG_ENTITY_TYPE, PlacementType.IN_WATER, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, null); //wait for #5918 to be merged
     }
 
-    public void onLoadComplete(FMLLoadCompleteEvent event)
+    @SubscribeEvent
+    public static void onLoadComplete(FMLLoadCompleteEvent event)
     {
         List<? extends String> biomes = ConfigSpawn.CONFIG.biomes.get();
 
@@ -60,7 +62,7 @@ public class Merpig
             {
                 if(biomes.contains(biome.getRegistryName().toString()))
                 {
-                    biome.addSpawn(EnumCreatureType.WATER_CREATURE,
+                    biome.getSpawns(EntityClassification.WATER_CREATURE).add(
                             new Biome.SpawnListEntry(MERPIG_ENTITY_TYPE,
                                     ConfigSpawn.CONFIG.spawnWeight.get(),
                                     ConfigSpawn.CONFIG.spawnMin.get(),
@@ -71,10 +73,16 @@ public class Merpig
     }
 
     @SubscribeEvent
+    public static void registerEntity(RegistryEvent.Register<EntityType<?>> event)
+    {
+        event.getRegistry().register(MERPIG_ENTITY_TYPE);
+    }
+
+    @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event)
     {
         event.getRegistry().register(new ItemSeagrassOnStick());
-        event.getRegistry().register(new ItemSpawnEgg(MERPIG_ENTITY_TYPE, Color.BLUE.getRGB(), Color.GREEN.getRGB(), new Item.Properties()
+        event.getRegistry().register(new SpawnEggItem(MERPIG_ENTITY_TYPE, Color.BLUE.getRGB(), Color.GREEN.getRGB(), new Item.Properties()
                 .group(ItemGroup.MISC)).setRegistryName(PREFIX + "merpig_spawn_egg"));
     }
 }

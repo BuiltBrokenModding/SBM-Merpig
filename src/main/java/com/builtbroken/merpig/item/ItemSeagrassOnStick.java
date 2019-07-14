@@ -2,13 +2,13 @@ package com.builtbroken.merpig.item;
 
 import com.builtbroken.merpig.Merpig;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
 /**
@@ -24,12 +24,12 @@ public class ItemSeagrassOnStick extends Item
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn)
     {
         ItemStack itemstack = playerIn.getHeldItem(handIn);
 
         //TODO implement boosting from pig
         /** {@link net.minecraft.item.ItemCarrotOnAStick } */
-        return new ActionResult<ItemStack>(EnumActionResult.PASS, itemstack);
+        return new ActionResult<ItemStack>(ActionResultType.PASS, itemstack);
     }
 }

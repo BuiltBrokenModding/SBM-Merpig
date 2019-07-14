@@ -1,30 +1,35 @@
 package com.builtbroken.merpig.entity;
 
+import javax.annotation.Nullable;
+
 import com.builtbroken.merpig.Merpig;
 import com.builtbroken.merpig.animation.Animation;
 import com.builtbroken.merpig.item.ItemSeagrassOnStick;
+
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.passive.EntityWaterMob;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
+import net.minecraft.entity.passive.WaterMobEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.*;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.Hand;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import javax.annotation.Nullable;
 
 /**
  * Pig that swims through water :P
@@ -32,7 +37,7 @@ import javax.annotation.Nullable;
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
  * Created by Dark(DarkGuardsman, Robert) on 3/28/2018.
  */
-public class EntityMerpig extends EntityWaterMob
+public class EntityMerpig extends WaterMobEntity
 {
     //Data values
     private static final DataParameter<Boolean> SADDLED = EntityDataManager.<Boolean>createKey(EntityMerpig.class, DataSerializers.BOOLEAN);
@@ -55,8 +60,12 @@ public class EntityMerpig extends EntityWaterMob
 
     public EntityMerpig(World worldIn)
     {
-        super(Merpig.MERPIG_ENTITY_TYPE, worldIn);
-        this.setSize(0.8F, 0.8F);
+        this(Merpig.MERPIG_ENTITY_TYPE, worldIn);
+    }
+
+    public EntityMerpig(EntityType<? extends EntityMerpig> type, World worldIn)
+    {
+        super(type, worldIn);
     }
 
     @Override
@@ -68,11 +77,11 @@ public class EntityMerpig extends EntityWaterMob
     }
 
     @Override
-    protected void initEntityAI()
+    protected void registerGoals()
     {
-        this.tasks.addTask(0, new AIMoveRandom(this));
-        this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.tasks.addTask(8, new EntityAILookIdle(this));
+        this.goalSelector.addGoal(0, new AIMoveRandom(this));
+        this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
+        this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
     }
 
     @Override
@@ -93,9 +102,9 @@ public class EntityMerpig extends EntityWaterMob
     public boolean canBeSteered()
     {
         Entity entity = this.getControllingPassenger();
-        if (entity instanceof EntityPlayer)
+        if (entity instanceof PlayerEntity)
         {
-            EntityPlayer entityplayer = (EntityPlayer) entity;
+            PlayerEntity entityplayer = (PlayerEntity) entity;
             return isSteeringItem(entityplayer.getHeldItemMainhand()) || isSteeringItem(entityplayer.getHeldItemOffhand());
         }
         return false;
@@ -121,19 +130,17 @@ public class EntityMerpig extends EntityWaterMob
                 this.setAIMoveSpeed(speed);
 
                 //Move entity in vector direction
-                this.motionX = this.randomMotionVecX * getAIMoveSpeed();
-                this.motionY = this.randomMotionVecY * getAIMoveSpeed();
-                this.motionZ = this.randomMotionVecZ * getAIMoveSpeed();
+                this.setMotion(this.randomMotionVecX * getAIMoveSpeed(), this.randomMotionVecY * getAIMoveSpeed(), this.randomMotionVecZ * getAIMoveSpeed());
             }
 
             //Update rotation to face movement
-            this.renderYawOffset += (-((float) MathHelper.atan2(this.motionX, this.motionZ)) * (180F / (float) Math.PI) - this.renderYawOffset) * 0.1F;
+            this.renderYawOffset += (-((float) MathHelper.atan2(this.getMotion().x, this.getMotion().z)) * (180F / (float) Math.PI) - this.renderYawOffset) * 0.1F;
             this.rotationYaw = this.renderYawOffset;
         }
     }
 
     @Override
-    public void travel(float strafe, float vertical, float forward)
+    public void travel(Vec3d motionIn)
     {
         if (isInWater())
         {
@@ -159,14 +166,12 @@ public class EntityMerpig extends EntityWaterMob
 
                     //Get vertical movement
                     float v = entity.rotationPitch / 180f;
-                    super.travel(0.0F, -v * 4, 1.0F);
+                    super.travel(new Vec3d(0.0F, -v * 4, 1.0F));
                 }
                 else
                 {
-                    this.motionX *= 0.98D;
-                    this.motionY *= 0.98D;
-                    this.motionZ *= 0.98D;
-                    move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
+                    this.setMotion(getMotion().x * 0.98D, getMotion().y * 0.98D, getMotion().z * 0.98D);
+                    move(MoverType.SELF, getMotion());
                 }
 
                 //Do animation
@@ -185,18 +190,18 @@ public class EntityMerpig extends EntityWaterMob
             {
                 this.stepHeight = 0.5F;
                 this.jumpMovementFactor = 0.02F;
-                super.travel(strafe, vertical, forward);
+                super.travel(motionIn);
             }
         }
         else
         {
-            this.motionY -= 0.03999999910593033D;
-            move(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
+            this.setMotion(getMotion().x, getMotion().y - 0.03999999910593033D, getMotion().z);
+            move(MoverType.SELF, getMotion());
         }
     }
 
     @Override
-    public boolean processInteract(EntityPlayer player, EnumHand hand)
+    public boolean processInteract(PlayerEntity player, Hand hand)
     {
         if (!super.processInteract(player, hand))
         {
@@ -244,13 +249,6 @@ public class EntityMerpig extends EntityWaterMob
         }
     }
 
-    @Override
-    @Nullable
-    protected ResourceLocation getLootTable()
-    {
-        return LootTableList.ENTITIES_PIG;
-    }
-
     /**
      * Returns true if the pig is saddled.
      */
@@ -275,14 +273,14 @@ public class EntityMerpig extends EntityWaterMob
     }
 
     @Override
-    public void writeAdditional(NBTTagCompound compound)
+    public void writeAdditional(CompoundNBT compound)
     {
         super.writeAdditional(compound);
         compound.putBoolean(NBT_SADDLE, this.isSaddled());
     }
 
     @Override
-    public void readAdditional(NBTTagCompound compound)
+    public void readAdditional(CompoundNBT compound)
     {
         super.readAdditional(compound);
         this.setSaddled(compound.getBoolean(NBT_SADDLE));
@@ -304,12 +302,6 @@ public class EntityMerpig extends EntityWaterMob
     protected SoundEvent getDeathSound()
     {
         return SoundEvents.ENTITY_PIG_DEATH; //TODO change
-    }
-
-    @Override
-    public boolean shouldDismountInWater(Entity rider)
-    {
-        return false;
     }
 
     @Override
@@ -336,9 +328,9 @@ public class EntityMerpig extends EntityWaterMob
     }
 
     @Override
-    public boolean canDespawn()
+    protected boolean preventDespawn()
     {
-        return false;
+        return true;
     }
 
     public void setMovementVector(float randomMotionVecXIn, float randomMotionVecYIn, float randomMotionVecZIn)

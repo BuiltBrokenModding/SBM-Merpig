@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import net.minecraft.client.renderer.entity.model.ModelRenderer;
+import net.minecraft.client.renderer.entity.model.RendererModel;
 
 /**
  * Handles a single animation
@@ -16,7 +16,7 @@ public class Animation
 {
     /** List of parts to animate */
     protected final List<AnimationPart> partsToAnimate = new ArrayList<>();
-    protected final HashMap<ModelRenderer, AnimationPart> partMap = new HashMap<>();
+    protected final HashMap<RendererModel, AnimationPart> partMap = new HashMap<>();
 
     /** Total duration of all parts */
     public final int duration;

@@ -6,7 +6,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.init.Biomes;
+import net.minecraft.world.biome.Biomes;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;

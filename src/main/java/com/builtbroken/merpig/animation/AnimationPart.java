@@ -1,6 +1,6 @@
 package com.builtbroken.merpig.animation;
 
-import net.minecraft.client.renderer.entity.model.ModelRenderer;
+import net.minecraft.client.renderer.entity.model.RendererModel;
 
 /**
  * Handles animation loop for a single part of a model
@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.entity.model.ModelRenderer;
 public class AnimationPart
 {
     /** Part to animate */
-    public final ModelRenderer renderer;
+    public final RendererModel renderer;
 
     /** First step in the linked list of animations, is always the default rotations */
     protected AnimationStep first;
@@ -22,7 +22,7 @@ public class AnimationPart
     float prev_rotateAngleY;
     float prev_rotateAngleZ;
 
-    public AnimationPart(ModelRenderer renderer)
+    public AnimationPart(RendererModel renderer)
     {
         this.renderer = renderer;
         //Create first
