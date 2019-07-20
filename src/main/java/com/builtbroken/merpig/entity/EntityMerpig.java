@@ -328,7 +328,7 @@ public class EntityMerpig extends WaterMobEntity
     }
 
     @Override
-    protected boolean preventDespawn()
+    public boolean preventDespawn()
     {
         return true;
     }

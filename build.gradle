@@ -18,7 +18,7 @@ archivesBaseName = 'SBM-Merpig'
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 minecraft {
-    mappings channel: 'snapshot', version: '20190713-1.14.3'
+    mappings channel: 'snapshot', version: '20190720-1.14.3'
 	
     runs {
         client = {
@@ -37,7 +37,7 @@ minecraft {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.14.3-27.0.50'
+    minecraft 'net.minecraftforge:forge:1.14.4-28.0.1'
 }
 
 jar {
