@@ -1,5 +1,5 @@
 modLoader="javafml" #mandatory
-loaderVersion="[27,)" #mandatory
+loaderVersion="[28,)" #mandatory
 issueTrackerURL="https://github.com/BuiltBrokenModding/SBM-Merpig/issues"
 displayURL="http://minecraft.curseforge.com/projects/sbm-merpig"
 authors="BuiltBrokenModding"
@@ -13,7 +13,7 @@ description='''Ridable sea creature''' #mandatory
 [[dependencies.merpig]]
     modId="forge"
     mandatory=true
-    versionRange="[27,)"
+    versionRange="[28.0.37,)"
     ordering="NONE"
     side="BOTH"
 
