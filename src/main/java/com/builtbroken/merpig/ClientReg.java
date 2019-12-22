@@ -1,6 +1,5 @@
 package com.builtbroken.merpig;
 
-import com.builtbroken.merpig.entity.EntityMerpig;
 import com.builtbroken.merpig.entity.RenderMerpig;
 
 import net.minecraftforge.api.distmarker.Dist;
@@ -20,6 +19,6 @@ public class ClientReg
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event)
     {
-        RenderingRegistry.registerEntityRenderingHandler(EntityMerpig.class, manager -> new RenderMerpig(manager));
+        RenderingRegistry.registerEntityRenderingHandler(Merpig.MERPIG_ENTITY_TYPE, RenderMerpig::new);
     }
 }

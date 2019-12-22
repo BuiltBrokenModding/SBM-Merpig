@@ -1,15 +1,19 @@
 package com.builtbroken.merpig.entity;
 
+import java.util.Random;
+
 import javax.annotation.Nullable;
 
 import com.builtbroken.merpig.Merpig;
 import com.builtbroken.merpig.animation.Animation;
 import com.builtbroken.merpig.item.ItemSeagrassOnStick;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.passive.WaterMobEntity;
@@ -25,8 +29,10 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -92,6 +98,7 @@ public class EntityMerpig extends WaterMobEntity
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.5D);
     }
 
+    @Override
     @Nullable
     public Entity getControllingPassenger()
     {
@@ -176,8 +183,8 @@ public class EntityMerpig extends WaterMobEntity
 
                 //Do animation
                 this.prevLimbSwingAmount = this.limbSwingAmount;
-                double d1 = this.posX - this.prevPosX;
-                double d0 = this.posZ - this.prevPosZ;
+                double d1 = this.func_226277_ct_() - this.prevPosX;
+                double d0 = this.func_226281_cx_() - this.prevPosZ;
                 float f1 = MathHelper.sqrt(d1 * d1 + d0 * d0) * 4.0F;
                 if (f1 > 1.0F)
                 {
@@ -225,7 +232,7 @@ public class EntityMerpig extends WaterMobEntity
                 if (!isSaddled())
                 {
                     setSaddled(true);
-                    world.playSound(player, posX, posY, posZ, SoundEvents.ENTITY_PIG_SADDLE, SoundCategory.NEUTRAL, 0.5F, 1.0F);
+                    world.playSound(player, func_226277_ct_(), func_226278_cu_(), func_226281_cx_(), SoundEvents.ENTITY_PIG_SADDLE, SoundCategory.NEUTRAL, 0.5F, 1.0F);
                     itemstack.shrink(1);
                 }
                 return true;
@@ -247,6 +254,11 @@ public class EntityMerpig extends WaterMobEntity
                 this.entityDropItem(Items.SADDLE, 1);
             }
         }
+    }
+
+    public static boolean canSpawn(EntityType<? extends EntityMerpig> type, IWorld world, SpawnReason reason, BlockPos spawnPos, Random random)
+    {
+        return world.getBlockState(spawnPos).getBlock() == Blocks.WATER && world.getBlockState(spawnPos.up()).getBlock() == Blocks.WATER;
     }
 
     /**
@@ -322,7 +334,7 @@ public class EntityMerpig extends WaterMobEntity
     }
 
     @Override
-    protected boolean canTriggerWalking()
+    protected boolean func_225502_at_() //canTriggerWalking
     {
         return false;
     }

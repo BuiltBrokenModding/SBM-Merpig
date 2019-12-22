@@ -29,7 +29,7 @@ public class RenderMerpig extends LivingRenderer<EntityMerpig,ModelMerpig>
 
     @Nullable
     @Override
-    protected ResourceLocation getEntityTexture(EntityMerpig entity)
+    public ResourceLocation getEntityTexture(EntityMerpig entity)
     {
         return resourceLocation;
     }
