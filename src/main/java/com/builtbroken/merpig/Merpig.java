@@ -48,7 +48,7 @@ public class Merpig
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigSpawn.CONFIG_SPEC);
         //Fix for spawn placement
         //test with seed 5892482181512470195 frozen ocean near spawn
-        EntitySpawnPlacementRegistry.register(MERPIG_ENTITY_TYPE, PlacementType.IN_WATER, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, null); //wait for #5918 to be merged
+        EntitySpawnPlacementRegistry.register(MERPIG_ENTITY_TYPE, PlacementType.IN_WATER, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EntityMerpig::canSpawn);
     }
 
     @SubscribeEvent

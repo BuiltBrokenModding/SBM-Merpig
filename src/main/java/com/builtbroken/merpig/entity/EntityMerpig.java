@@ -1,15 +1,19 @@
 package com.builtbroken.merpig.entity;
 
+import java.util.Random;
+
 import javax.annotation.Nullable;
 
 import com.builtbroken.merpig.Merpig;
 import com.builtbroken.merpig.animation.Animation;
 import com.builtbroken.merpig.item.ItemSeagrassOnStick;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.passive.WaterMobEntity;
@@ -25,8 +29,10 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -92,6 +98,7 @@ public class EntityMerpig extends WaterMobEntity
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.5D);
     }
 
+    @Override
     @Nullable
     public Entity getControllingPassenger()
     {
@@ -247,6 +254,11 @@ public class EntityMerpig extends WaterMobEntity
                 this.entityDropItem(Items.SADDLE, 1);
             }
         }
+    }
+
+    public static boolean canSpawn(EntityType<? extends EntityMerpig> type, IWorld world, SpawnReason reason, BlockPos spawnPos, Random random)
+    {
+        return world.getBlockState(spawnPos).getBlock() == Blocks.WATER && world.getBlockState(spawnPos.up()).getBlock() == Blocks.WATER;
     }
 
     /**
