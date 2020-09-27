@@ -37,41 +37,41 @@ public class ModelMerpig extends EntityModel<EntityMerpig>
         this.textureHeight = 64;
         this.TailBase = new ModelRenderer(this, 66, 20);
         this.TailBase.setRotationPoint(-4.0F, 11.0F, 6.0F);
-        this.TailBase.func_228301_a_(0.0F, 0.0F, 0.0F, 8, 6, 5, 0.0F);
+        this.TailBase.addBox(0.0F, 0.0F, 0.0F, 8, 6, 5, 0.0F);
         this.flipper1 = new ModelRenderer(this, 0, 36);
         this.flipper1.setRotationPoint(5.4F, 16.0F, -5.0F);
-        this.flipper1.func_228301_a_(-2.0F, 0.0F, -2.0F, 1, 6, 5, 0.0F);
+        this.flipper1.addBox(-2.0F, 0.0F, -2.0F, 1, 6, 5, 0.0F);
         this.setRotateAngle(flipper1, 0.0F, 0.0F, -0.7285004297824331F);
         this.TailMiddle = new ModelRenderer(this, 96, 21);
         this.TailMiddle.setRotationPoint(2.0F, 1.5F, 4.0F);
-        this.TailMiddle.func_228301_a_(0.0F, 0.0F, 0.0F, 4, 3, 6, 0.0F);
+        this.TailMiddle.addBox(0.0F, 0.0F, 0.0F, 4, 3, 6, 0.0F);
         this.FinMiddle = new ModelRenderer(this, 42, 36);
         this.FinMiddle.setRotationPoint(-5.551115123125783E-17F, 0.0F, 4.0F);
-        this.FinMiddle.func_228301_a_(0.0F, 0.0F, 0.0F, 1, 7, 5, 0.0F);
+        this.FinMiddle.addBox(0.0F, 0.0F, 0.0F, 1, 7, 5, 0.0F);
         this.merpignose = new ModelRenderer(this, 16, 16);
         this.merpignose.setRotationPoint(0.0F, 0.0F, 0.0F);
-        this.merpignose.func_228301_a_(-2.0F, 0.0F, -9.0F, 4, 3, 1, 0.0F);
+        this.merpignose.addBox(-2.0F, 0.0F, -9.0F, 4, 3, 1, 0.0F);
         this.FinEnd = new ModelRenderer(this, 59, 38);
         this.FinEnd.setRotationPoint(0.0F, -1.0F, 4.0F);
-        this.FinEnd.func_228301_a_(0.0F, 0.0F, 0.0F, 1, 9, 2, 0.0F);
+        this.FinEnd.addBox(0.0F, 0.0F, 0.0F, 1, 9, 2, 0.0F);
         this.merpigbody = new ModelRenderer(this, 28, 8);
         this.merpigbody.setRotationPoint(0.0F, 11.0F, 2.0F);
-        this.merpigbody.func_228301_a_(-5.0F, -10.0F, -7.0F, 10, 15, 8, 0.0F);
+        this.merpigbody.addBox(-5.0F, -10.0F, -7.0F, 10, 15, 8, 0.0F);
         this.setRotateAngle(merpigbody, 1.5707963267948966F, 0.0F, 0.0F);
         this.headfin = new ModelRenderer(this, 66, 0);
         this.headfin.setRotationPoint(-0.5F, -10.0F, -6.0F);
-        this.headfin.func_228301_a_(0.0F, 0.0F, 0.0F, 1, 7, 7, 0.0F);
+        this.headfin.addBox(0.0F, 0.0F, 0.0F, 1, 7, 7, 0.0F);
         this.setRotateAngle(headfin, -0.27314402793711257F, 0.0F, 0.0F);
         this.FinStart = new ModelRenderer(this, 42, 36);
         this.FinStart.setRotationPoint(1.5F, -2.0F, 4.0F);
-        this.FinStart.func_228301_a_(0.0F, 0.0F, 0.0F, 1, 7, 5, 0.0F);
+        this.FinStart.addBox(0.0F, 0.0F, 0.0F, 1, 7, 5, 0.0F);
         this.flipper2 = new ModelRenderer(this, 0, 36);
         this.flipper2.setRotationPoint(-3.0F, 18.0F, -5.0F);
-        this.flipper2.func_228301_a_(-2.0F, 0.0F, -2.0F, 1, 6, 5, 0.0F);
+        this.flipper2.addBox(-2.0F, 0.0F, -2.0F, 1, 6, 5, 0.0F);
         this.setRotateAngle(flipper2, 0.0F, 0.0F, 0.7285004297824331F);
         this.merpighead = new ModelRenderer(this, 0, 0);
         this.merpighead.setRotationPoint(0.0F, 12.0F, -6.0F);
-        this.merpighead.func_228301_a_(-4.0F, -4.0F, -8.0F, 8, 8, 8, 0.0F);
+        this.merpighead.addBox(-4.0F, -4.0F, -8.0F, 8, 8, 8, 0.0F);
         this.TailBase.addChild(this.TailMiddle);
         this.FinStart.addChild(this.FinMiddle);
         this.merpighead.addChild(this.merpignose);
@@ -132,14 +132,13 @@ public class ModelMerpig extends EntityModel<EntityMerpig>
     }
 
     @Override
-    public void func_225598_a_(MatrixStack stack, IVertexBuilder builder, int p_225598_3_, int p_225598_4_, float p_225598_5_, float p_225598_6_, float p_225598_7_, float p_225598_8_)
+    public void render(MatrixStack stack, IVertexBuilder builder, int p_225598_3_, int p_225598_4_, float p_225598_5_, float p_225598_6_, float p_225598_7_, float p_225598_8_)
     {
-        this.flipper2.func_228309_a_(stack, builder, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
-        this.flipper1.func_228309_a_(stack, builder, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
-        this.TailBase.func_228309_a_(stack, builder, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
-        this.merpigbody.func_228309_a_(stack, builder, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
-        //this.merpignose.func_228309_a_(stack, builder, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
-        this.merpighead.func_228309_a_(stack, builder, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
+        this.flipper2.render(stack, builder, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
+        this.flipper1.render(stack, builder, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
+        this.TailBase.render(stack, builder, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
+        this.merpigbody.render(stack, builder, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
+        this.merpighead.render(stack, builder, p_225598_3_, p_225598_4_, p_225598_5_, p_225598_6_, p_225598_7_, p_225598_8_);
     }
 
     /**
@@ -185,7 +184,7 @@ public class ModelMerpig extends EntityModel<EntityMerpig>
     }
 
     @Override
-    public void func_225597_a_(EntityMerpig entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
+    public void setRotationAngles(EntityMerpig entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch)
     {
         this.merpighead.rotateAngleX = headPitch * 0.017453292F;
         this.merpighead.rotateAngleY = netHeadYaw * 0.017453292F;

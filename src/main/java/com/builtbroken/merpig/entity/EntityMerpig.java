@@ -11,9 +11,11 @@ import com.builtbroken.merpig.item.ItemSeagrassOnStick;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.MoverType;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap.MutableAttribute;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.LookAtGoal;
 import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.passive.WaterMobEntity;
@@ -24,6 +26,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
@@ -31,7 +34,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -78,7 +81,7 @@ public class EntityMerpig extends WaterMobEntity
     protected void registerData()
     {
         super.registerData();
-        this.dataManager.register(SADDLED, Boolean.valueOf(false));
+        this.dataManager.register(SADDLED, false);
         //this.dataManager.register(BOOST_TIME, Integer.valueOf(0)); TODO add
     }
 
@@ -90,12 +93,11 @@ public class EntityMerpig extends WaterMobEntity
         this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
     }
 
-    @Override
-    protected void registerAttributes()
+    public static MutableAttribute getAttributes()
     {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20.0D);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.5D);
+        return MobEntity.func_233666_p_()
+                .createMutableAttribute(Attributes.MAX_HEALTH, 10.0D)
+                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.5D);
     }
 
     @Override
@@ -133,7 +135,7 @@ public class EntityMerpig extends WaterMobEntity
             if (!this.world.isRemote)
             {
                 //Set speed
-                float speed = (float) this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
+                float speed = (float) this.getAttribute(Attributes.MOVEMENT_SPEED).getValue();
                 this.setAIMoveSpeed(speed);
 
                 //Move entity in vector direction
@@ -147,7 +149,7 @@ public class EntityMerpig extends WaterMobEntity
     }
 
     @Override
-    public void travel(Vec3d motionIn)
+    public void travel(Vector3d motionIn)
     {
         if (isInWater())
         {
@@ -168,12 +170,12 @@ public class EntityMerpig extends WaterMobEntity
                 if (this.canPassengerSteer())
                 {
                     //Set speed
-                    float speed = (float) this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
+                    float speed = (float) this.getAttribute(Attributes.MOVEMENT_SPEED).getValue();
                     this.setAIMoveSpeed(speed);
 
                     //Get vertical movement
                     float v = entity.rotationPitch / 180f;
-                    super.travel(new Vec3d(0.0F, -v * 4, 1.0F));
+                    super.travel(new Vector3d(0.0F, -v * 4, 1.0F));
                 }
                 else
                 {
@@ -183,8 +185,8 @@ public class EntityMerpig extends WaterMobEntity
 
                 //Do animation
                 this.prevLimbSwingAmount = this.limbSwingAmount;
-                double d1 = this.func_226277_ct_() - this.prevPosX;
-                double d0 = this.func_226281_cx_() - this.prevPosZ;
+                double d1 = this.getPosX() - this.prevPosX;
+                double d0 = this.getPosZ() - this.prevPosZ;
                 float f1 = MathHelper.sqrt(d1 * d1 + d0 * d0) * 4.0F;
                 if (f1 > 1.0F)
                 {
@@ -208,16 +210,16 @@ public class EntityMerpig extends WaterMobEntity
     }
 
     @Override
-    public boolean processInteract(PlayerEntity player, Hand hand)
+    public ActionResultType func_230254_b_(PlayerEntity player, Hand hand)
     {
-        if (!super.processInteract(player, hand))
+        if (super.func_230254_b_(player, hand) == ActionResultType.PASS)
         {
             ItemStack itemstack = player.getHeldItem(hand);
 
             if (itemstack.getItem() == Items.NAME_TAG)
             {
                 itemstack.interactWithEntity(player, this, hand);
-                return true;
+                return ActionResultType.SUCCESS;
             }
             else if (isSaddled() && !this.isBeingRidden())
             {
@@ -225,21 +227,21 @@ public class EntityMerpig extends WaterMobEntity
                 {
                     player.startRiding(this);
                 }
-                return true;
+                return ActionResultType.SUCCESS;
             }
             else if (itemstack.getItem() == Items.SADDLE)
             {
                 if (!isSaddled())
                 {
                     setSaddled(true);
-                    world.playSound(player, func_226277_ct_(), func_226278_cu_(), func_226281_cx_(), SoundEvents.ENTITY_PIG_SADDLE, SoundCategory.NEUTRAL, 0.5F, 1.0F);
+                    world.playSound(player, getPosX(), getPosY(), getPosZ(), SoundEvents.ENTITY_PIG_SADDLE, SoundCategory.NEUTRAL, 0.5F, 1.0F);
                     itemstack.shrink(1);
                 }
-                return true;
+                return ActionResultType.SUCCESS;
             }
-            return false;
+            return ActionResultType.FAIL;
         }
-        return true;
+        return ActionResultType.SUCCESS;
     }
 
     @Override
@@ -266,7 +268,7 @@ public class EntityMerpig extends WaterMobEntity
      */
     public boolean isSaddled()
     {
-        return this.dataManager.get(SADDLED).booleanValue();
+        return this.dataManager.get(SADDLED);
     }
 
     /**
@@ -276,11 +278,11 @@ public class EntityMerpig extends WaterMobEntity
     {
         if (saddled)
         {
-            this.dataManager.set(SADDLED, Boolean.valueOf(true));
+            this.dataManager.set(SADDLED, true);
         }
         else
         {
-            this.dataManager.set(SADDLED, Boolean.valueOf(false));
+            this.dataManager.set(SADDLED, false);
         }
     }
 
@@ -334,7 +336,7 @@ public class EntityMerpig extends WaterMobEntity
     }
 
     @Override
-    protected boolean func_225502_at_() //canTriggerWalking
+    protected boolean canTriggerWalking()
     {
         return false;
     }

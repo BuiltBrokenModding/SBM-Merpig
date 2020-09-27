@@ -13,12 +13,12 @@ apply plugin: 'eclipse'
 
 version = '0.0.1'
 group = 'merpig'
-archivesBaseName = 'SBM-Merpig-1.15.1'
+archivesBaseName = 'SBM-Merpig-1.16.3'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 minecraft {
-    mappings channel: 'snapshot', version: '20191217-1.14.3'
+    mappings channel: 'snapshot', version: '20200916-1.16.2'
 	
     runs {
         client {
@@ -46,7 +46,7 @@ minecraft {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.15.1-30.0.14'
+    minecraft 'net.minecraftforge:forge:1.16.3-34.1.0'
 }
 
 jar {
