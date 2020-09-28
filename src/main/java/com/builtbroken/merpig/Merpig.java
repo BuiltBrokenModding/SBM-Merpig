@@ -16,17 +16,17 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.biome.MobSpawnInfo.Spawners;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.Heightmap;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 
 /**
  * @see <a href="https://github.com/BuiltBrokenModding/VoltzEngine/blob/development/license.md">License</a> for what you can and can't do with the code.
@@ -50,22 +50,25 @@ public class Merpig
         //Fix for spawn placement
         //test with seed 5892482181512470195 frozen ocean near spawn
         EntitySpawnPlacementRegistry.register(MERPIG_ENTITY_TYPE, PlacementType.IN_WATER, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EntityMerpig::canSpawn);
-        MinecraftForge.EVENT_BUS.addListener(this::onBiomeLoading);
     }
 
-    public void onBiomeLoading(BiomeLoadingEvent event)
+    @SubscribeEvent
+    public static void onLoadComplete(FMLLoadCompleteEvent event)
     {
         List<? extends String> biomes = ConfigSpawn.CONFIG.biomes.get();
 
-        if(ConfigSpawn.CONFIG.shouldSpawn.get() && biomes.size() > 0)
+        for(Biome biome : ForgeRegistries.BIOMES)
         {
-            if(biomes.contains(event.getName().toString()))
+            if(ConfigSpawn.CONFIG.shouldSpawn.get() && biomes.size() > 0)
             {
-                event.getSpawns().getSpawner(EntityClassification.WATER_CREATURE).add(
-                        new Spawners(MERPIG_ENTITY_TYPE,
-                                ConfigSpawn.CONFIG.spawnWeight.get(),
-                                ConfigSpawn.CONFIG.spawnMin.get(),
-                                ConfigSpawn.CONFIG.spawnMax.get()));
+                if(biomes.contains(biome.getRegistryName().toString()))
+                {
+                    biome.getSpawns(EntityClassification.WATER_CREATURE).add(
+                            new Biome.SpawnListEntry(MERPIG_ENTITY_TYPE,
+                                    ConfigSpawn.CONFIG.spawnWeight.get(),
+                                    ConfigSpawn.CONFIG.spawnMin.get(),
+                                    ConfigSpawn.CONFIG.spawnMax.get()));
+                }
             }
         }
     }

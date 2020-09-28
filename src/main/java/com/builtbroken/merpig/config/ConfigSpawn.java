@@ -54,16 +54,16 @@ public class ConfigSpawn
         biomes = builder
                 .comment("Biomes to spawn the Merpig inside")
                 .defineList("spawn_biomes", Lists.newArrayList(
-                        Biomes.COLD_OCEAN.getLocation().toString(),
-                        Biomes.FROZEN_OCEAN.getLocation().toString(),
-                        Biomes.LUKEWARM_OCEAN.getLocation().toString(),
-                        Biomes.OCEAN.getLocation().toString(),
-                        Biomes.WARM_OCEAN.getLocation().toString(),
-                        Biomes.DEEP_COLD_OCEAN.getLocation().toString(),
-                        Biomes.DEEP_FROZEN_OCEAN.getLocation().toString(),
-                        Biomes.DEEP_LUKEWARM_OCEAN.getLocation().toString(),
-                        Biomes.DEEP_OCEAN.getLocation().toString(),
-                        Biomes.DEEP_WARM_OCEAN.getLocation().toString()
+                        Biomes.COLD_OCEAN.getRegistryName().toString(),
+                        Biomes.FROZEN_OCEAN.getRegistryName().toString(),
+                        Biomes.LUKEWARM_OCEAN.getRegistryName().toString(),
+                        Biomes.OCEAN.getRegistryName().toString(),
+                        Biomes.WARM_OCEAN.getRegistryName().toString(),
+                        Biomes.DEEP_COLD_OCEAN.getRegistryName().toString(),
+                        Biomes.DEEP_FROZEN_OCEAN.getRegistryName().toString(),
+                        Biomes.DEEP_LUKEWARM_OCEAN.getRegistryName().toString(),
+                        Biomes.DEEP_OCEAN.getRegistryName().toString(),
+                        Biomes.DEEP_WARM_OCEAN.getRegistryName().toString()
                         ), e -> e instanceof String);
         builder.pop();
     }

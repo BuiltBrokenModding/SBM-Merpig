@@ -13,7 +13,7 @@ apply plugin: 'eclipse'
 
 version = '0.0.1'
 group = 'merpig'
-archivesBaseName = 'SBM-Merpig-1.16.3'
+archivesBaseName = 'SBM-Merpig-1.16.1'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
@@ -46,7 +46,7 @@ minecraft {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.3-34.1.0'
+    minecraft 'net.minecraftforge:forge:1.16.1-32.0.108'
 }
 
 jar {
